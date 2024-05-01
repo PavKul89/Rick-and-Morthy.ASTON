@@ -10,6 +10,7 @@ import Signin from './components/Header/Signin'
 import Signup from './components/Header/Signup'
 import { ThemeProvider } from './context/ThemeContext'
 import MainLayot from './layouts/MainLayout'
+import { Suspense } from 'react'
 
 function App() {
   return (
@@ -20,7 +21,14 @@ function App() {
             <Route path="/" element={<MainLayot />}>
               <Route index element={<Logo />} />
               <Route path="favorites" element={<Favorites />} />
-              <Route path="project/:id" element={<Project />} />
+              <Route
+                path="project/:id"
+                element={
+                  <Suspense fallback={<h2>Loading...</h2>}>
+                    <Project />
+                  </Suspense>
+                }
+              />
               <Route path="history" element={<History />} />
               <Route path="search" element={<Search />} />
               <Route path="signin" element={<Signin />} />
