@@ -1,16 +1,19 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
+import React from 'react'
 import Favorites from './components/Header/Favorites'
 import History from './components/Header/History'
 import Logo from './components/Header/Logo'
 import NotFound from './components/Header/NotFound'
-import Project from './components/Header/Project'
 import Search from './components/Header/Search'
 import Signin from './components/Header/Signin'
 import Signup from './components/Header/Signup'
+
 import { ThemeProvider } from './context/ThemeContext'
 import MainLayot from './layouts/MainLayout'
 import { Suspense } from 'react'
+
+const InfoPerson = React.lazy(() => import('./components/Header/Project'))
 
 function App() {
   return (
@@ -25,7 +28,7 @@ function App() {
                 path="project/:id"
                 element={
                   <Suspense fallback={<h2>Loading...</h2>}>
-                    <Project />
+                    <InfoPerson />
                   </Suspense>
                 }
               />
