@@ -8,7 +8,6 @@ import NotFound from './components/Header/NotFound'
 import Search from './components/Header/Search'
 import Signin from './components/Header/Signin'
 import Signup from './components/Header/Signup'
-
 import { ThemeProvider } from './context/ThemeContext'
 import MainLayot from './layouts/MainLayout'
 import { Suspense } from 'react'
