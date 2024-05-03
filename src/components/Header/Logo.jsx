@@ -1,13 +1,7 @@
 import Posts from '../Posts'
 
 function Logo() {
-  return (
-    <>
-      <h1>
-        <Posts />
-      </h1>
-    </>
-  )
+  return <Posts />
 }
 
 export default Logo

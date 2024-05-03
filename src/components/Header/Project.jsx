@@ -1,21 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useParams } from 'react-router-dom'
+import { useFetchCharacter } from '../../hooks/useFetchCharacter'
 
 function Project() {
   const { id } = useParams()
-  const [personInfo, setPersonInfo] = useState({})
-
-  useEffect(() => {
-    fetch(`https://rickandmortyapi.com/api/character/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setPersonInfo(data)
-      })
-      .catch((error) => {
-        console.log(error.message)
-      })
-  }, [id])
-
+  const { personInfo } = useFetchCharacter(id)
   const { name, status, species, origin, location, gender } = personInfo
 
   return (
