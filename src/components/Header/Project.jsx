@@ -1,6 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import { useFetchCharacter } from '../../hooks/useFetchCharacter'
+import PropTypes from 'prop-types'
 
 function Project() {
   const { id } = useParams()
@@ -22,6 +23,10 @@ function Project() {
       </div>
     </div>
   )
+}
+
+Project.propTypes = {
+  id: PropTypes.string.isRequired,
 }
 
 export default Project
