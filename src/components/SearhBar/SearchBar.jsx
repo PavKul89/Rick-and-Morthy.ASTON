@@ -1,41 +1,32 @@
 import React, { useState } from 'react'
 import './SearchBar.css'
 
-function SearchBar({ setResults }) {
-  const [input, setInput] = useState('')
+function SearchBar() {
+  const [result, setResult] = useState([])
+  console.log(result)
 
-  const searchData = (value) => {
-    fetch('https://rickandmortyapi.com/api/character')
-      .then((res) => res.json())
-      .then((json) => {
-        const results = json.results.filter((user) => {
-          return (
-            value &&
-            user &&
-            user.name &&
-            user.name.toLowerCase().includes(value)
-          )
-        })
-        setResults(results)
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error)
-      })
+  const searchApi = async (text) => {
+    let inDebounce
+    return (function () {
+      clearTimeout(inDebounce)
+      console.log(text)
+      inDebounce = setTimeout(async () => {
+        const response = await fetch(
+          `https://rickandmortyapi.com/api/character/?name=${text}`
+        )
+        const rst = await response.json()
+        setResult(rst.results)
+      }, 1000)
+    })()
   }
-
-  const handleChange = (value) => {
-    setInput(value)
-    searchData(value)
-  }
-
   return (
-    <div className="search-input">
+    <div className="App">
       <input
-        placeholder="Type to search..."
-        value={input}
-        onChange={(e) => handleChange(e.target.value)}
+        placeholder="Search..."
+        type="text"
+        onKeyUp={(e) => searchApi(e.target.value)}
       />
-      <button className="search-button">Search</button>
+      <div className="results-list">{result.map((item) => item.name)}</div>
     </div>
   )
 }

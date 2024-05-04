@@ -13,7 +13,7 @@ function Post(props) {
     <NavLink to={`/project/${id}`}>
       <div className="post">
         <img src={image} alt={name} />
-        <h2>{name}</h2>
+        <h3>{name}</h3>
       </div>
     </NavLink>
   )
