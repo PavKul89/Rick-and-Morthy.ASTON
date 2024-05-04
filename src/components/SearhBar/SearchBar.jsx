@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './SearchBar.css'
 
-function SearchBar() {
+function SearchBar({ setResults }) {
   const [input, setInput] = useState('')
 
   const searchData = (value) => {
@@ -16,7 +16,7 @@ function SearchBar() {
             user.name.toLowerCase().includes(value)
           )
         })
-        console.log(results)
+        setResults(results)
       })
       .catch((error) => {
         console.error('Error fetching data:', error)

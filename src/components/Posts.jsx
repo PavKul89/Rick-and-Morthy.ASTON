@@ -3,6 +3,8 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { useTheme } from '../context/ThemeContext'
 import BackToTopButton from '../layouts/BackToTopButton'
 import Post from './Post'
+import SearchBar from './SearhBar/SearchBar'
+import SearchResultsList from './ResultsList/SearchResultsList'
 
 function Posts() {
   const [posts, setPosts] = useState([])
@@ -10,6 +12,7 @@ function Posts() {
   const [isLoading, setIsLoading] = useState(true)
   const [hasMore, setHasMore] = useState(true)
   const [pageNumber, setPageNumber] = useState(2)
+  const [results, setResults] = useState([])
 
   const { theme } = useTheme()
 
@@ -50,6 +53,8 @@ function Posts() {
 
   return (
     <div className="posts">
+      <SearchBar setResults={setResults} />
+      <SearchResultsList results={results} />
       <InfiniteScroll
         className={
           theme === 'light'
