@@ -3,22 +3,24 @@ import './SearchBar.css'
 
 function SearchBar() {
   const [result, setResult] = useState([])
-  console.log(result)
+  const [loading, setLoading] = useState(false)
 
   const searchApi = async (text) => {
+    setLoading(true)
     let inDebounce
     return (function () {
       clearTimeout(inDebounce)
-      console.log(text)
       inDebounce = setTimeout(async () => {
         const response = await fetch(
           `https://rickandmortyapi.com/api/character/?name=${text}`
         )
         const rst = await response.json()
         setResult(rst.results)
+        setLoading(false)
       }, 1000)
     })()
   }
+
   return (
     <div className="App">
       <input
@@ -26,7 +28,15 @@ function SearchBar() {
         type="text"
         onKeyUp={(e) => searchApi(e.target.value)}
       />
-      <div className="results-list">{result.map((item) => item.name)}</div>
+      <div className="results-list">
+        {loading ? (
+          <div>Loading...</div>
+        ) : Array.isArray(result) && result.length > 0 ? (
+          result.map((item) => <div key={item.id}>{item.name}</div>)
+        ) : (
+          <div>There is nothing here</div>
+        )}
+      </div>
     </div>
   )
 }

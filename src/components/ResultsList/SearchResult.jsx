@@ -1,11 +1,7 @@
-import './SearchResult.css'
+// import './SearchResult.css'
 
-function SearchResult({ result }) {
-  return (
-    <div className="search-result" onClick={(e) => console.log(result)}>
-      {result.name}
-    </div>
-  )
-}
+// function SearchResult({ result }) {
+//   return <div>{result.name}</div>
+// }
 
-export default SearchResult
+// export default SearchResult
