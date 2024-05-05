@@ -14,6 +14,7 @@ function Posts() {
   const [hasMore, setHasMore] = useState(true)
   const [pageNumber, setPageNumber] = useState(2)
   const [results, setResults] = useState([])
+  const [favoriteCards, setFavoriteCards] = useState([])
   const { theme } = useTheme()
 
   useEffect(() => {
@@ -27,6 +28,10 @@ function Posts() {
       })
       .finally(() => setIsLoading(false))
   }, [])
+
+  const addToFavorites = (card) => {
+    setFavoriteCards([...favoriteCards, card])
+  }
 
   const fetchMoreData = () => {
     if (posts.length < 826) {
@@ -68,7 +73,7 @@ function Posts() {
         endMessage={<p>character list is over</p>}
       >
         {posts.map((post) => (
-          <Post key={post.id} {...post} />
+          <Post key={post.id} {...post} addToFavorites={addToFavorites} />
         ))}
         <BackToTopButton />
       </InfiniteScroll>
