@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import './SearchBar.css'
+import SearchResult from '../ResultsList/SearchResult'
 
 function SearchBar() {
   const [result, setResult] = useState([])
   const [loading, setLoading] = useState(false)
   const [hasError, setError] = useState(false)
+  const [selectedItem, setSelectedItem] = useState(null)
+
   const searchApi = async (text) => {
     setLoading(true)
     let inDebounce
@@ -15,18 +18,22 @@ function SearchBar() {
           `https://rickandmortyapi.com/api/character/?name=${text}`
         )
         const rst = await response.json()
-        console.log('=>(SearchBar.jsx:19) rst', rst.hasOwnProperty('error'))
 
-        if (rst.hasOwnProperty('error')) {
+        if (rst.error) {
           setError(true)
         } else {
           setResult(rst.results)
           setError(false)
+          setSelectedItem(null)
         }
 
         setLoading(false)
       }, 1000)
     })()
+  }
+
+  const handleClick = (item) => {
+    setSelectedItem(item)
   }
 
   return (
@@ -36,16 +43,24 @@ function SearchBar() {
         type="text"
         onKeyUp={(e) => searchApi(e.target.value)}
       />
-      <button>sdfadf</button>
-      <div className="results-list">
-        {loading ? (
-          <div>Loading...</div>
-        ) : !hasError ? (
-          result.map((item) => <div key={item.id}>{item.name}</div>)
-        ) : (
-          <div>There is nothing here</div>
-        )}
-      </div>
+      <button className="search-button">search</button>
+      {!selectedItem ? (
+        <div className="results-list">
+          {loading ? (
+            <div>Loading...</div>
+          ) : !hasError ? (
+            result.map((item) => (
+              <div key={item.id} onClick={() => handleClick(item)}>
+                {item.name}
+              </div>
+            ))
+          ) : (
+            <div>There is nothing here</div>
+          )}
+        </div>
+      ) : (
+        <SearchResult selectedItem={selectedItem} />
+      )}
     </div>
   )
 }

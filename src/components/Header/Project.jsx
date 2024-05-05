@@ -20,6 +20,7 @@ function Project() {
         <p>Origin: {origin?.name}</p>
         <p>Location: {location?.name}</p>
         <p>Gender: {gender}</p>
+        <button className="btn-favotites">Add to favorites</button>
       </div>
     </div>
   )

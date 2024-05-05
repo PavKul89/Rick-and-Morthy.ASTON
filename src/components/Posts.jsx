@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import { withErrorBoundary } from 'react-error-boundary'
 import { useTheme } from '../context/ThemeContext'
 import BackToTopButton from '../layouts/BackToTopButton'
 import Post from './Post'
@@ -13,11 +14,10 @@ function Posts() {
   const [hasMore, setHasMore] = useState(true)
   const [pageNumber, setPageNumber] = useState(2)
   const [results, setResults] = useState([])
-
   const { theme } = useTheme()
 
   useEffect(() => {
-    fetch('https://rickandmortyapi.com/api/character')
+    fetch('https://rickandmorty.com/api/character')
       .then((res) => res.json())
       .then((data) => {
         setPosts(data.results)
@@ -76,4 +76,6 @@ function Posts() {
   )
 }
 
-export default Posts
+export default withErrorBoundary(Posts, {
+  fallback: <div>Something went wrong</div>,
+})
