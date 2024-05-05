@@ -17,7 +17,7 @@ function Posts() {
   const { theme } = useTheme()
 
   useEffect(() => {
-    fetch('https://rickandmorty.com/api/character')
+    fetch('https://rickandmortyapi.com/api/character')
       .then((res) => res.json())
       .then((data) => {
         setPosts(data.results)
