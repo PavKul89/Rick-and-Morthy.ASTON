@@ -5,28 +5,31 @@ import './Post.css'
 
 function Post(props) {
   const { image, name, id } = props
-  Post.propTypes = {
-    image: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-  }
 
   return (
-    <NavLink to={`/project/${id}`}>
-      <div className="post">
-        <img src={image} alt={name} />
-        <div className="buttons">
+    <div className="post">
+      <img src={image} alt={name} />
+      <div className="buttons">
+        <NavLink>
           <Button bgColor="#7950f2" textColor="#fff">
             <span>Add to favorites</span>
           </Button>
+        </NavLink>
+        <NavLink to={`/project/${id}`}>
           <Button bgColor="#6350d3" textColor="#fff">
             <span>More details</span>
           </Button>
-        </div>
-        <h3>{name}</h3>
+        </NavLink>
       </div>
-    </NavLink>
+      <h3>{name}</h3>
+    </div>
   )
+}
+
+Post.propTypes = {
+  image: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
 }
 
 export default Post

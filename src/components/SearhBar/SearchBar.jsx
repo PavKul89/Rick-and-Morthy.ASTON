@@ -4,7 +4,7 @@ import './SearchBar.css'
 function SearchBar() {
   const [result, setResult] = useState([])
   const [loading, setLoading] = useState(false)
-
+  const [hasError, setError] = useState(false)
   const searchApi = async (text) => {
     setLoading(true)
     let inDebounce
@@ -15,7 +15,15 @@ function SearchBar() {
           `https://rickandmortyapi.com/api/character/?name=${text}`
         )
         const rst = await response.json()
-        setResult(rst.results)
+        console.log('=>(SearchBar.jsx:19) rst', rst.hasOwnProperty('error'))
+
+        if (rst.hasOwnProperty('error')) {
+          setError(true)
+        } else {
+          setResult(rst.results)
+          setError(false)
+        }
+
         setLoading(false)
       }, 1000)
     })()
@@ -28,10 +36,11 @@ function SearchBar() {
         type="text"
         onKeyUp={(e) => searchApi(e.target.value)}
       />
+      <button>sdfadf</button>
       <div className="results-list">
         {loading ? (
           <div>Loading...</div>
-        ) : Array.isArray(result) && result.length > 0 ? (
+        ) : !hasError ? (
           result.map((item) => <div key={item.id}>{item.name}</div>)
         ) : (
           <div>There is nothing here</div>
