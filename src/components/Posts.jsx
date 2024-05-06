@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import { withErrorBoundary } from 'react-error-boundary'
 import { useTheme } from '../context/ThemeContext'
 import BackToTopButton from '../layouts/BackToTopButton'
 import Post from './Post'
+import SearchBar from './SearhBar/SearchBar'
+import SearchResultsList from './ResultsList/SearchResultsList'
 
 function Posts() {
   const [posts, setPosts] = useState([])
@@ -10,7 +13,8 @@ function Posts() {
   const [isLoading, setIsLoading] = useState(true)
   const [hasMore, setHasMore] = useState(true)
   const [pageNumber, setPageNumber] = useState(2)
-
+  const [results, setResults] = useState([])
+  const [favoriteCards, setFavoriteCards] = useState([])
   const { theme } = useTheme()
 
   useEffect(() => {
@@ -24,6 +28,10 @@ function Posts() {
       })
       .finally(() => setIsLoading(false))
   }, [])
+
+  const addToFavorites = (card) => {
+    setFavoriteCards([...favoriteCards, card])
+  }
 
   const fetchMoreData = () => {
     if (posts.length < 826) {
@@ -50,6 +58,8 @@ function Posts() {
 
   return (
     <div className="posts">
+      <SearchBar setResults={setResults} />
+      <SearchResultsList results={results} />
       <InfiniteScroll
         className={
           theme === 'light'
@@ -63,7 +73,7 @@ function Posts() {
         endMessage={<p>character list is over</p>}
       >
         {posts.map((post) => (
-          <Post key={post.id} {...post} />
+          <Post key={post.id} {...post} addToFavorites={addToFavorites} />
         ))}
         <BackToTopButton />
       </InfiniteScroll>
@@ -71,4 +81,6 @@ function Posts() {
   )
 }
 
-export default Posts
+export default withErrorBoundary(Posts, {
+  fallback: <div>Something went wrong</div>,
+})

@@ -1,16 +1,47 @@
-import { NavLink } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import Button from './Button/Button'
 import './Post.css'
 
-function Post(props) {
-  const { image, name, id } = props
+function Post({ image, name, id, addToFavorites }) {
+  const [isFavorite, setIsFavorite] = useState(false)
+
+  const handleAddToFavorites = () => {
+    setIsFavorite(!isFavorite)
+    addToFavorites({ image, name, id })
+    console.log({ image, name, id })
+  }
+
   return (
-    <NavLink to={`/project/${id}`}>
-      <div className="post">
-        <img src={image} alt={name} />
-        <h2>{name}</h2>
+    <div className="post">
+      <img src={image} alt={name} />
+      <div className="buttons">
+        <button
+          style={{
+            backgroundColor: isFavorite ? '#7950f2' : '#6350d3',
+            color: '#fff',
+          }}
+          onClick={handleAddToFavorites}
+        >
+          {isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+        </button>
+        <Link to={`/project/${id}`}>
+          <Button bgColor="#6350d3" textColor="#fff">
+            <span>More details</span>
+          </Button>
+        </Link>
       </div>
-    </NavLink>
+      <h3>{name}</h3>
+    </div>
   )
+}
+
+Post.propTypes = {
+  image: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  addToFavorites: PropTypes.func.isRequired,
 }
 
 export default Post
