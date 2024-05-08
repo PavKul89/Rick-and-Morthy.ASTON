@@ -16,6 +16,15 @@ function Posts() {
   const [results, setResults] = useState([])
   const [favoriteCards, setFavoriteCards] = useState([])
   const { theme } = useTheme()
+  console.log(favoriteCards)
+
+  useEffect(() => {
+    const storedFavorites = localStorage.getItem('favorites')
+    const parsedFavorites = JSON.parse(storedFavorites)
+    if (favoriteCards.length > 0) {
+      localStorage.setItem('favorites', JSON.stringify(favoriteCards))
+    }
+  }, [favoriteCards])
 
   useEffect(() => {
     fetch('https://rickandmortyapi.com/api/character')

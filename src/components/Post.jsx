@@ -10,7 +10,6 @@ function Post({ image, name, id, addToFavorites }) {
   const handleAddToFavorites = () => {
     setIsFavorite(!isFavorite)
     addToFavorites({ image, name, id })
-    console.log({ image, name, id })
   }
 
   return (
