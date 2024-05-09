@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import './SearchBar.css'
 import SearchResult from '../ResultsList/SearchResult'
-
 import { Link } from 'react-router-dom'
 
 function SearchBar() {
