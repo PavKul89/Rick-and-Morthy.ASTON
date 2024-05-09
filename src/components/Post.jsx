@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Button from './Button/Button'
@@ -7,6 +7,13 @@ import './Post.css'
 
 function Post({ image, name, id, addToFavorites, removeFromFavorites }) {
   const [isFavorite, setIsFavorite] = useState(false)
+
+  useEffect(() => {
+    // Проверяем, добавлено ли изображение в избранное при первоначальной загрузке компонента
+    const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || []
+    const isAlreadyFavorite = storedFavorites.some((card) => card.id === id)
+    setIsFavorite(isAlreadyFavorite)
+  }, [id])
 
   const handleAddToFavorites = () => {
     setIsFavorite(!isFavorite)
