@@ -8,9 +8,14 @@ function Project() {
   const { personInfo, isLoading } = useFetchCharacter(id)
   const { name, status, species, origin, location, gender } = personInfo
   const [imageLoading, setImageLoading] = useState(true)
+  const [isFavorite, setIsFavorite] = useState(false)
 
   const handleImageLoaded = () => {
     setImageLoading(false)
+  }
+
+  const handleAddToFavorites = () => {
+    setIsFavorite(!isFavorite)
   }
 
   return (
@@ -37,7 +42,9 @@ function Project() {
         <p>Origin: {origin?.name}</p>
         <p>Location: {location?.name}</p>
         <p>Gender: {gender}</p>
-        <button className="btn-favotites">Add to favorites</button>
+        <button onClick={handleAddToFavorites} className="btn-favotites">
+          {isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+        </button>
       </div>
     </div>
   )

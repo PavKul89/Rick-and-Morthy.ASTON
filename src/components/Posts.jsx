@@ -19,10 +19,10 @@ function Posts() {
   console.log(favoriteCards)
 
   useEffect(() => {
-    const storedFavorites = localStorage.getItem('favorites')
-    const parsedFavorites = JSON.parse(storedFavorites)
     if (favoriteCards.length > 0) {
       localStorage.setItem('favorites', JSON.stringify(favoriteCards))
+    } else {
+      localStorage.removeItem('favorites')
     }
   }, [favoriteCards])
 
@@ -40,6 +40,12 @@ function Posts() {
 
   const addToFavorites = (card) => {
     setFavoriteCards([...favoriteCards, card])
+  }
+
+  const removeFromFavorites = (id) => {
+    const updatedFavorites = favoriteCards.filter((card) => card.id !== id)
+    setFavoriteCards(updatedFavorites)
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
   }
 
   const fetchMoreData = () => {
@@ -82,7 +88,12 @@ function Posts() {
         endMessage={<p>character list is over</p>}
       >
         {posts.map((post) => (
-          <Post key={post.id} {...post} addToFavorites={addToFavorites} />
+          <Post
+            key={post.id}
+            {...post}
+            addToFavorites={addToFavorites}
+            removeFromFavorites={removeFromFavorites} // Pass removeFromFavorites as a prop
+          />
         ))}
         <BackToTopButton />
       </InfiniteScroll>

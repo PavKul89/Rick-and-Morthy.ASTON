@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import './SearchBar.css'
 import SearchResult from '../ResultsList/SearchResult'
 
+import { Link } from 'react-router-dom'
+
 function SearchBar() {
   const [result, setResult] = useState([])
   const [loading, setLoading] = useState(false)
@@ -32,10 +34,6 @@ function SearchBar() {
     })()
   }
 
-  const handleClick = (item) => {
-    setSelectedItem(item)
-  }
-
   return (
     <div className="App">
       <input
@@ -50,9 +48,9 @@ function SearchBar() {
             <div>Loading...</div>
           ) : !hasError ? (
             result.map((item) => (
-              <div key={item.id} onClick={() => handleClick(item)}>
-                {item.name}
-              </div>
+              <Link key={item.id} to={`/project/${item.id}`}>
+                <div>{item.name}</div>
+              </Link>
             ))
           ) : (
             <div>There is nothing here</div>
