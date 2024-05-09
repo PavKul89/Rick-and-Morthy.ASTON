@@ -1,17 +1,12 @@
-import React, { useState } from 'react'
 import './SearchBar.css'
-import SearchResult from '../ResultsList/SearchResult'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 function SearchBar() {
-  const [result, setResult] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [hasError, setError] = useState(false)
-  const [selectedItem, setSelectedItem] = useState(null)
   const [searchText, setSearchText] = useState('')
+  const [suggestions, setSuggestions] = useState([])
 
   const searchApi = async (text) => {
-    setLoading(true)
     let inDebounce
     clearTimeout(inDebounce)
     inDebounce = setTimeout(async () => {
@@ -22,24 +17,49 @@ function SearchBar() {
         if (!response.ok) {
           throw new Error('Network response was not ok')
         }
-        const rst = await response.json()
-
-        setResult(rst.results)
-        setError(false)
-        setSelectedItem(null)
       } catch (error) {
         console.error('Error fetching data:', error)
-        setError(true)
       } finally {
-        setLoading(false)
       }
     }, 1000)
   }
 
+  const fetchSuggestions = async (text) => {
+    try {
+      const response = await fetch(
+        `https://rickandmortyapi.com/api/character/?name=${text}`
+      )
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      const data = await response.json()
+      if (data.results) {
+        setSuggestions(data.results)
+      } else {
+        setSuggestions([])
+      }
+    } catch (error) {
+      console.error('Error fetching suggestions:', error)
+    }
+  }
+
+  const handleInputChange = (event) => {
+    const text = event.target.value
+    setSearchText(text)
+    if (text.trim() !== '') {
+      fetchSuggestions(text)
+    } else {
+      setSuggestions([])
+    }
+  }
+
+  const handleSuggestionClick = (suggestion) => {
+    setSearchText(suggestion.name)
+    setSuggestions([])
+  }
+
   const handleSearch = (text) => {
     setSearchText(text)
-
-    window.location.href = `/history?query=${encodeURIComponent(text)}`
     searchApi(text)
   }
 
@@ -49,39 +69,28 @@ function SearchBar() {
         placeholder="Search..."
         type="text"
         value={searchText}
-        onChange={(e) => {
-          setSearchText(e.target.value)
-
-          searchApi(e.target.value)
-        }}
+        onChange={(e) => handleInputChange(e)}
         onKeyUp={(e) => {
           if (e.key === 'Enter') {
             handleSearch(e.target.value)
           }
         }}
       />
-      <button
-        className="search-button"
-        onClick={() => handleSearch(searchText)}
-      >
-        search
-      </button>
-      {!selectedItem ? (
-        <div className="results-list">
-          {loading ? (
-            <div>Loading...</div>
-          ) : !hasError ? (
-            result.map((item) => (
-              <Link key={item.id} to={`/project/${item.id}`}>
-                <div>{item.name}</div>
-              </Link>
-            ))
-          ) : (
-            <div>There is nothing here</div>
-          )}
+      <button className="search-button">Search</button>
+      {suggestions.length > 0 && (
+        <div className="suggestions">
+          {suggestions.map((suggestion) => (
+            <div
+              key={suggestion.id}
+              onClick={() => handleSuggestionClick(suggestion)}
+            >
+              <Link to={`/project/${suggestion.id}`}>{suggestion.name}</Link>
+            </div>
+          ))}
         </div>
-      ) : (
-        <SearchResult selectedItem={selectedItem} />
+      )}
+      {searchText.trim() !== '' && suggestions.length === 0 && (
+        <div className="no-suggestions">No suggestions found</div>
       )}
     </div>
   )
