@@ -11,7 +11,7 @@ function Favorites() {
     if (storedFavorites) {
       setFavoriteCards(JSON.parse(storedFavorites))
     }
-  }, []) // Загружаем данные из локального хранилища при первоначальной загрузке
+  }, [])
 
   const removeFromFavorites = (id) => {
     const updatedFavorites = favoriteCards.filter((card) => card.id !== id)
@@ -19,9 +19,26 @@ function Favorites() {
     localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
   }
 
+  const clearFavorites = () => {
+    setFavoriteCards([])
+    localStorage.removeItem('favorites')
+  }
+
   return (
     <div>
       <h1>Favorites</h1>
+      {favoriteCards.length > 0 && (
+        <button
+          className="btn-favorites"
+          style={{
+            backgroundColor: '#6350d3',
+            color: '#fff',
+          }}
+          onClick={clearFavorites}
+        >
+          Clear Favorites
+        </button>
+      )}
       <div className="favorites">
         {favoriteCards.length === 0 ? (
           <p className="nofavorites">No favorite cards</p>

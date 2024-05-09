@@ -9,7 +9,6 @@ function Post({ image, name, id, addToFavorites, removeFromFavorites }) {
   const [isFavorite, setIsFavorite] = useState(false)
 
   useEffect(() => {
-    // Проверяем, добавлено ли изображение в избранное при первоначальной загрузке компонента
     const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || []
     const isAlreadyFavorite = storedFavorites.some((card) => card.id === id)
     setIsFavorite(isAlreadyFavorite)

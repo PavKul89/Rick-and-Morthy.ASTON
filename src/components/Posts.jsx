@@ -19,12 +19,11 @@ function Posts() {
   console.log(favoriteCards)
 
   useEffect(() => {
-    // Загрузка избранных из локального хранилища при первоначальной загрузке
     const storedFavorites = localStorage.getItem('favorites')
     if (storedFavorites) {
       setFavoriteCards(JSON.parse(storedFavorites))
     }
-  }, []) // Пустой массив зависимостей гарантирует выполнение этого эффекта только при первоначальной загрузке
+  }, [])
 
   useEffect(() => {
     if (favoriteCards.length > 0) {
@@ -48,6 +47,7 @@ function Posts() {
 
   const addToFavorites = (card) => {
     setFavoriteCards([...favoriteCards, card])
+    localStorage.setItem('favorites', JSON.stringify([...favoriteCards, card]))
   }
 
   const removeFromFavorites = (id) => {
