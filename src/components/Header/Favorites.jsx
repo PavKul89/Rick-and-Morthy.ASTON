@@ -11,7 +11,7 @@ function Favorites() {
     if (storedFavorites) {
       setFavoriteCards(JSON.parse(storedFavorites))
     }
-  }, [])
+  }, []) // Загружаем данные из локального хранилища при первоначальной загрузке
 
   const removeFromFavorites = (id) => {
     const updatedFavorites = favoriteCards.filter((card) => card.id !== id)

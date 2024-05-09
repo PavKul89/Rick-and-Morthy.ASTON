@@ -16,6 +16,31 @@ function Project() {
 
   const handleAddToFavorites = () => {
     setIsFavorite(!isFavorite)
+
+    // Получаем избранные карточки из локального хранилища
+    const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || []
+
+    if (isFavorite) {
+      // Удаляем карточку из избранного
+      const updatedFavorites = storedFavorites.filter((card) => card.id !== id)
+      localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
+    } else {
+      // Добавляем карточку в избранное
+      const newFavorite = {
+        id,
+        name,
+        status,
+        species,
+        origin,
+        location,
+        gender,
+        image: personInfo.image,
+      }
+      localStorage.setItem(
+        'favorites',
+        JSON.stringify([...storedFavorites, newFavorite])
+      )
+    }
   }
 
   return (
@@ -42,7 +67,7 @@ function Project() {
         <p>Origin: {origin?.name}</p>
         <p>Location: {location?.name}</p>
         <p>Gender: {gender}</p>
-        <button onClick={handleAddToFavorites} className="btn-favotites">
+        <button onClick={handleAddToFavorites} className="btn-favorites">
           {isFavorite ? 'Remove from favorites' : 'Add to favorites'}
         </button>
       </div>
