@@ -8,29 +8,39 @@ function SearchBar() {
   const [loading, setLoading] = useState(false)
   const [hasError, setError] = useState(false)
   const [selectedItem, setSelectedItem] = useState(null)
+  const [searchText, setSearchText] = useState('')
 
   const searchApi = async (text) => {
     setLoading(true)
     let inDebounce
-    return (function () {
-      clearTimeout(inDebounce)
-      inDebounce = setTimeout(async () => {
+    clearTimeout(inDebounce)
+    inDebounce = setTimeout(async () => {
+      try {
         const response = await fetch(
           `https://rickandmortyapi.com/api/character/?name=${text}`
         )
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
+        }
         const rst = await response.json()
 
-        if (rst.error) {
-          setError(true)
-        } else {
-          setResult(rst.results)
-          setError(false)
-          setSelectedItem(null)
-        }
-
+        setResult(rst.results)
+        setError(false)
+        setSelectedItem(null)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+        setError(true)
+      } finally {
         setLoading(false)
-      }, 1000)
-    })()
+      }
+    }, 1000)
+  }
+
+  const handleSearch = (text) => {
+    setSearchText(text)
+
+    window.location.href = `/history?query=${encodeURIComponent(text)}`
+    searchApi(text)
   }
 
   return (
@@ -38,9 +48,24 @@ function SearchBar() {
       <input
         placeholder="Search..."
         type="text"
-        onKeyUp={(e) => searchApi(e.target.value)}
+        value={searchText}
+        onChange={(e) => {
+          setSearchText(e.target.value)
+
+          searchApi(e.target.value)
+        }}
+        onKeyUp={(e) => {
+          if (e.key === 'Enter') {
+            handleSearch(e.target.value)
+          }
+        }}
       />
-      <button className="search-button">search</button>
+      <button
+        className="search-button"
+        onClick={() => handleSearch(searchText)}
+      >
+        search
+      </button>
       {!selectedItem ? (
         <div className="results-list">
           {loading ? (
