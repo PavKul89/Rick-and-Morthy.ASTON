@@ -1,27 +1,27 @@
-import './SearchBar.css'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import './SearchBar.css'
 
 function SearchBar() {
   const [searchText, setSearchText] = useState('')
   const [suggestions, setSuggestions] = useState([])
 
   const searchApi = async (text) => {
-    let inDebounce
-    clearTimeout(inDebounce)
-    inDebounce = setTimeout(async () => {
-      try {
-        const response = await fetch(
-          `https://rickandmortyapi.com/api/character/?name=${text}`
-        )
-        if (!response.ok) {
-          throw new Error('Network response was not ok')
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      } finally {
+    try {
+      const response = await fetch(
+        `https://rickandmortyapi.com/api/character/?name=${text}`
+      )
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
       }
-    }, 1000)
+      const data = await response.json()
+      if (data.results) {
+      } else {
+        setSuggestions([])
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    }
   }
 
   const fetchSuggestions = async (text) => {
@@ -58,9 +58,8 @@ function SearchBar() {
     setSuggestions([])
   }
 
-  const handleSearch = (text) => {
-    setSearchText(text)
-    searchApi(text)
+  const handleSearch = () => {
+    searchApi(searchText)
   }
 
   return (
@@ -72,11 +71,13 @@ function SearchBar() {
         onChange={(e) => handleInputChange(e)}
         onKeyUp={(e) => {
           if (e.key === 'Enter') {
-            handleSearch(e.target.value)
+            handleSearch()
           }
         }}
       />
-      <button className="search-button">Search</button>
+      <button className="search-button" onClick={handleSearch}>
+        Search
+      </button>
       {suggestions.length > 0 && (
         <div className="suggestions">
           {suggestions.map((suggestion) => (
