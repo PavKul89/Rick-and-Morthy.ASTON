@@ -9,10 +9,10 @@ import Search from './components/Header/Search'
 import Signin from './components/Header/Signin'
 import Signup from './components/Header/Signup'
 import { ThemeProvider } from './context/ThemeContext'
-import MainLayot from './layouts/MainLayout'
+import MainLayout from './layouts/MainLayout'
 import { Suspense } from 'react'
 
-const InfoPerson = React.lazy(() => import('./components/Header/Project'))
+const Project = React.lazy(() => import('./components/Header/Project'))
 
 function App() {
   return (
@@ -20,14 +20,14 @@ function App() {
       <BrowserRouter>
         <div className="App">
           <Routes>
-            <Route path="/" element={<MainLayot />}>
+            <Route path="/" element={<MainLayout />}>
               <Route index element={<Logo />} />
               <Route path="favorites" element={<Favorites />} />
               <Route
                 path="project/:id"
                 element={
                   <Suspense fallback={<h2>Loading...</h2>}>
-                    <InfoPerson />
+                    <Project />
                   </Suspense>
                 }
               />

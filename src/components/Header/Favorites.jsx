@@ -1,28 +1,10 @@
-import React, { useState, useEffect } from 'react'
 import './Favorites.css'
 import Button from '../Button/Button'
 import { Link } from 'react-router-dom'
+import { useFavorites } from '../../hooks/useFavorites'
 
 function Favorites() {
-  const [favoriteCards, setFavoriteCards] = useState([])
-
-  useEffect(() => {
-    const storedFavorites = localStorage.getItem('favorites')
-    if (storedFavorites) {
-      setFavoriteCards(JSON.parse(storedFavorites))
-    }
-  }, [])
-
-  const removeFromFavorites = (id) => {
-    const updatedFavorites = favoriteCards.filter((card) => card.id !== id)
-    setFavoriteCards(updatedFavorites)
-    localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
-  }
-
-  const clearFavorites = () => {
-    setFavoriteCards([])
-    localStorage.removeItem('favorites')
-  }
+  const { favoriteCards, removeFromFavorites, clearFavorites } = useFavorites()
 
   return (
     <div>
