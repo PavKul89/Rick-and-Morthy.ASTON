@@ -9,15 +9,14 @@ function Project() {
   const { personInfo, isLoading } = useFetchCharacter(id)
   const { name, status, species, origin, location, gender } = personInfo
   const [imageLoading, setImageLoading] = useState(true)
-  const { favoriteCards } = useFavorites()
+  const [isFavorite, setIsFavorite] = useState(false)
+  const { favoriteCards, removeFromFavorites } = useFavorites()
 
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || []
     const isAlreadyFavorite = storedFavorites.some((card) => card.id === id)
     setIsFavorite(isAlreadyFavorite)
   }, [id, favoriteCards])
-
-  const [isFavorite, setIsFavorite] = useState(false)
 
   const handleImageLoaded = () => {
     setImageLoading(false)
@@ -29,6 +28,7 @@ function Project() {
       const updatedFavorites = storedFavorites.filter((card) => card.id !== id)
       localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
       setIsFavorite(false)
+      removeFromFavorites(id)
     } else {
       const newFavorite = {
         id,

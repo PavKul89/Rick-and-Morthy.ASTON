@@ -1,5 +1,17 @@
+import { Link } from 'react-router-dom'
+import Login from '../Form/Login'
+
 function Signin() {
-  return <h1>Signin</h1>
+  return (
+    <div>
+      <hi>Signin</hi>
+      <Login></Login>
+
+      <p>
+        Or <Link to="/Signup">Signup</Link>
+      </p>
+    </div>
+  )
 }
 
 export default Signin
