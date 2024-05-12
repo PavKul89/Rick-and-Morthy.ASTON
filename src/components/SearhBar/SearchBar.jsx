@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './SearchBar.css'
-import Search from '../Header/Search'
+
+import { useNavigate } from 'react-router-dom'
 
 function SearchBar() {
   const [searchText, setSearchText] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [searchResults, setSearchResults] = useState([])
+  const navigate = useNavigate()
 
   const searchApi = async (text) => {
     try {
@@ -62,13 +64,16 @@ function SearchBar() {
   }
 
   const handleSearch = () => {
+    const charactersIds = suggestions.map((character) => character.id)
     searchApi(searchText)
+    const searchString = '/search/' + charactersIds.join(',')
+    navigate(searchString)
   }
 
   return (
     <div className="App">
       <input
-        placeholder="Поиск..."
+        placeholder="character search..."
         type="text"
         value={searchText}
         onChange={(e) => handleInputChange(e)}
@@ -79,7 +84,7 @@ function SearchBar() {
         }}
       />
       <button className="search-button" onClick={handleSearch}>
-        Поиск
+        Search
       </button>
       {suggestions.length > 0 && (
         <div className="suggestions">
@@ -96,7 +101,6 @@ function SearchBar() {
       {searchText.trim() !== '' && suggestions.length === 0 && (
         <div className="no-suggestions">Предложений не найдено</div>
       )}
-      <Search searchResults={searchResults} />
     </div>
   )
 }

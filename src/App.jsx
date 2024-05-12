@@ -35,7 +35,7 @@ function App() {
                   }
                 />
                 <Route path="history" element={<History />} />
-                <Route path="search" element={<Search />} />
+                <Route path="search/:ids" element={<Search />} />
                 <Route exact path="signin" element={<Signin />} />
                 <Route exact path="signup" element={<Signup />} />
                 <Route path="*" element={<NotFound />} />
