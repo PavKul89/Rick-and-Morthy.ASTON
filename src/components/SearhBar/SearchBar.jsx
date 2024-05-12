@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './SearchBar.css'
+import Search from '../Header/Search'
 
 function SearchBar() {
   const [searchText, setSearchText] = useState('')
   const [suggestions, setSuggestions] = useState([])
+  const [searchResults, setSearchResults] = useState([])
 
   const searchApi = async (text) => {
     try {
@@ -12,15 +14,16 @@ function SearchBar() {
         `https://rickandmortyapi.com/api/character/?name=${text}`
       )
       if (!response.ok) {
-        throw new Error('Network response was not ok')
+        throw new Error('Проблемы с сетью')
       }
       const data = await response.json()
       if (data.results) {
+        setSearchResults(data.results)
       } else {
-        setSuggestions([])
+        setSearchResults([])
       }
     } catch (error) {
-      console.error('Error fetching data:', error)
+      console.error('Ошибка получения данных:', error)
     }
   }
 
@@ -30,7 +33,7 @@ function SearchBar() {
         `https://rickandmortyapi.com/api/character/?name=${text}`
       )
       if (!response.ok) {
-        throw new Error('Network response was not ok')
+        throw new Error('Проблемы с сетью')
       }
       const data = await response.json()
       if (data.results) {
@@ -39,7 +42,7 @@ function SearchBar() {
         setSuggestions([])
       }
     } catch (error) {
-      console.error('Error fetching suggestions:', error)
+      console.error('Ошибка получения предложений:', error)
     }
   }
 
@@ -65,7 +68,7 @@ function SearchBar() {
   return (
     <div className="App">
       <input
-        placeholder="Search..."
+        placeholder="Поиск..."
         type="text"
         value={searchText}
         onChange={(e) => handleInputChange(e)}
@@ -76,7 +79,7 @@ function SearchBar() {
         }}
       />
       <button className="search-button" onClick={handleSearch}>
-        Search
+        Поиск
       </button>
       {suggestions.length > 0 && (
         <div className="suggestions">
@@ -91,8 +94,9 @@ function SearchBar() {
         </div>
       )}
       {searchText.trim() !== '' && suggestions.length === 0 && (
-        <div className="no-suggestions">No suggestions found</div>
+        <div className="no-suggestions">Предложений не найдено</div>
       )}
+      <Search searchResults={searchResults} />
     </div>
   )
 }
