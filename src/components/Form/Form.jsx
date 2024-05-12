@@ -1,10 +1,11 @@
 import { useState } from 'react'
+import './Form.css'
 
 function Form({ title, handleClickForm }) {
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
   return (
-    <div>
+    <div className="form-register">
       <input
         type="email"
         value={email}

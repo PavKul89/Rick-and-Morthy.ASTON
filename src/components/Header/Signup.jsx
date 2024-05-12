@@ -4,7 +4,7 @@ import SignupForm from '../Form/SignUpForm'
 function Signup() {
   return (
     <div>
-      <h1>Signup</h1>
+      <div>Signup</div>
       <SignupForm></SignupForm>
 
       <p>

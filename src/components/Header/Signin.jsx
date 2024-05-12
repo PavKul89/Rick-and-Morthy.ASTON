@@ -4,9 +4,8 @@ import Login from '../Form/Login'
 function Signin() {
   return (
     <div>
-      <hi>Signin</hi>
+      <div>Signin</div>
       <Login></Login>
-
       <p>
         Or <Link to="/Signup">Signup</Link>
       </p>

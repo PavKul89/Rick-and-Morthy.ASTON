@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Button from './Button/Button'
-
 import './Post.css'
 
 function Post({ image, name, id, addToFavorites, removeFromFavorites }) {
