@@ -9,7 +9,7 @@ function Post({ image, name, id, addToFavorites, removeFromFavorites }) {
 
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || []
-    const isAlreadyFavorite = storedFavorites.some((card) => card.id === id)
+    const isAlreadyFavorite = storedFavorites.some((card) => card?.id === id)
     setIsFavorite(isAlreadyFavorite)
   }, [id])
 
