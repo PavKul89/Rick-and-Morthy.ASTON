@@ -4,7 +4,7 @@ import Button from '../Button/Button'
 import { Link } from 'react-router-dom'
 import { useFavorites } from '../../context/FavoritesContext'
 import './Search.css'
-//рефактор
+//правка 3
 function Search() {
   const { query } = useParams()
   const { addToFavorites, removeFromFavorites, favorites } = useFavorites()
