@@ -4,19 +4,17 @@ import Button from '../Button/Button'
 import { Link } from 'react-router-dom'
 import { useFavorites } from '../../context/FavoritesContext'
 import './Search.css'
-//правка 3
-function Search() {
-  const { query } = useParams()
-  const { addToFavorites, removeFromFavorites, favorites } = useFavorites()
+
+function SearchResultPage() {
   const { ids } = useParams()
+  const { addToFavorites, removeFromFavorites, favorites } = useFavorites()
   const [searchResult, setSearchResults] = useState([])
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     fetchSearchResults()
-  }, [query])
-
+  }, [ids])
   const fetchSearchResults = async () => {
     const characterIds = ids.split(',')
     const multipleCharacters =
@@ -44,46 +42,9 @@ function Search() {
     }
   }
 
-SearchCharacter
   if (isLoading) {
     return <h1>...Loading</h1>
   }
-
-
-    const fetchSearchResults = async () => {
-      try {
-        const response = await fetch(
-          `https://rickandmortyapi.com/api/character/?name=${query}`
-        )
-        if (!response.ok) {
-          throw new Error('Failed to fetch data')
-        }
-        const data = await response.json()
-        setSearchResults(data.results)
-        setIsLoading(false)
-      } catch (error) {
-        setError(error.message)
-        setIsLoading(false)
-      }
-    }
-    fetchSearchResults(){
-  }, [query])
-
-  const isFavorite = (id) => favorites.some((item) => item.id === id)
-
-  const handleAddRemoveFavorites = (result) => {
-    if (isFavorite(result.id)) {
-      removeFromFavorites(result.id)
-    } else {
-      addToFavorites(result)
-    }
-  }
-
-
-  if (isLoading) {
-    return <h1>Loading...</h1>
-  }
-
 
   if (error) {
     return <h1>Error: {error}</h1>
@@ -92,7 +53,6 @@ SearchCharacter
   return (
     <div>
       <div>Search Result</div>
-
       <div className="search-result">
         {searchResult.map((result) => (
           <div className="search-card" key={result.id}>
@@ -121,9 +81,8 @@ SearchCharacter
           </div>
         ))}
       </div>
-
     </div>
   )
 }
 
-export default Search
+export default SearchResultPage

@@ -26,7 +26,7 @@ function Favorites() {
         ) : (
           favoriteCards.map((card) => (
             <div key={card?.id} className="favorites-post">
-              <img src={card?.image} alt={card.name} />
+              <img src={card?.image} alt={card?.name} />
               <h3>{card?.name}</h3>
               <div className="buttons">
                 <Button
@@ -36,7 +36,7 @@ function Favorites() {
                 >
                   <span>Remove</span>
                 </Button>
-                <Link to={`/project/${card.id}`}>
+                <Link to={`/project/${card?.id}`}>
                   <Button bgColor="#6350d3" textColor="#fff">
                     <span>More details</span>
                   </Button>
