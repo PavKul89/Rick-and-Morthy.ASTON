@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import './SearchBar.css'
+import { useSearch } from '../../context/SearchContext'
 
+//попытка 2
 function SearchBar() {
   const [searchText, setSearchText] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const navigate = useNavigate()
+  const { addToHistory } = useSearch()
 
   const searchApi = async (text) => {
     try {
@@ -45,6 +48,7 @@ function SearchBar() {
   }
 
   const handleInputChange = (event) => {
+    setSearchText(event.target.value)
     const text = event.target.value
     setSearchText(text)
     if (text.trim() !== '') {
@@ -64,6 +68,8 @@ function SearchBar() {
     searchApi(searchText)
     const searchString = '/search/' + charactersIds.join(',')
     navigate(searchString)
+    setSearchText('')
+    addToHistory(searchText)
   }
 
   return (
