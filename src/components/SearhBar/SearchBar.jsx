@@ -66,7 +66,7 @@ function SearchBar() {
   const handleSearch = () => {
     const charactersIds = suggestions.map((character) => character.id)
     searchApi(searchText)
-    const searchString = '/search/' + charactersIds.join(',')
+    const searchString = '/searchResultPage/' + charactersIds.join(',')
     navigate(searchString)
   }
 
