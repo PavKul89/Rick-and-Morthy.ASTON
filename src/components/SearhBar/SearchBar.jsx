@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './SearchBar.css'
 
 import { useNavigate } from 'react-router-dom'
@@ -8,6 +8,7 @@ function SearchBar() {
   const [searchText, setSearchText] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [searchResults, setSearchResults] = useState([])
+
   const navigate = useNavigate()
 
   const searchApi = async (text) => {
@@ -66,7 +67,9 @@ function SearchBar() {
   const handleSearch = () => {
     const charactersIds = suggestions.map((character) => character.id)
     searchApi(searchText)
+
     const searchString = '/searchResultPage/' + charactersIds.join(',')
+
     navigate(searchString)
   }
 

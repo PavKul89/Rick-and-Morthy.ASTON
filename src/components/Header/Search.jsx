@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import {  Link } from 'react-router-dom'
+
+import { Link } from 'react-router-dom'
 import Button from '../Button/Button'
-import { useFavorites } from '../../context/FavoritesContext'
 import './Search.css'
 
-function Search() {
-  const { query } = useParams()
-  const { addToFavorites, removeFromFavorites, favorites } = useFavorites()
+function Search({ id }) {
+  const [isFavorite, setIsFavorite] = useState(false)
+  const { ids } = useParams()
+  const idArray = ids.split(',')
+
   const [searchResult, setSearchResults] = useState([])
   const characterIds = idArray.join(',')
   const [error, setError] = useState('')
@@ -17,7 +19,7 @@ function Search() {
   console.log(searchResult)
 
   useEffect(() => {
-
+ SearchCharacter
     fetch(multipleCharacters)
       .then((res) => {
         console.log(res)
@@ -34,6 +36,12 @@ function Search() {
       })
       .finally(() => setIsLoading(false))
   }, [])
+
+SearchCharacter
+  if (isLoading) {
+    return <h1>...Loading</h1>
+  }
+
 
     const fetchSearchResults = async () => {
       try {
@@ -69,24 +77,39 @@ function Search() {
     return <h1>Loading...</h1>
   }
 
+
   if (error) {
     return <h1>Error: {error}</h1>
   }
   return (
     <div>
       <div>Search Result</div>
-      {searchResult.map((result) => (
-        <li key={result.id}>
-          <img src={result.image} alt={result.name} />
-          <div>
-            <h2>{result.name}</h2>
-            <p>Status: {result.status}</p>
-            <p>Species: {result.species}</p>
-            <p>Origin: {result.origin.name}</p>
-            <p>Location: {result.location.name}</p>
+
+      <div className="search-result">
+        {searchResult.map((result) => (
+          <div className="search-card" key={result.id}>
+            <img src={result.image} alt={result.name} />
+            <div>{result.name}</div>
+            <div className="buttons">
+              <button
+                style={{
+                  backgroundColor: isFavorite ? '#7950f2' : '#6350d3',
+                  color: '#fff',
+                }}
+                // onClick={handleAddToFavorites}
+              >
+                {isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+              </button>
+              <Link to={`/project/${result.id}`}>
+                <Button bgColor="#6350d3" textColor="#fff">
+                  <span>More details</span>
+                </Button>
+              </Link>
+            </div>
           </div>
-        </li>
-      ))}
+        ))}
+      </div>
+
     </div>
   )
 }

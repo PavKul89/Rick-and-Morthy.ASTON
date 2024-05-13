@@ -1,26 +1,22 @@
-.favorites {
+.search-result {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   padding: 10px 350px;
   color: #5f5b5b;
 }
 
-.favorites-post {
-  border: 4px solid rgb(86, 86, 87);
+.search-card {
+  border: 4px solid rgb(119, 119, 122);
   border-radius: 10px;
   margin: 5%;
   background-color: rgb(139, 139, 175);
 }
 
-.favorites-post > img {
+.search-card > img {
   text-shadow: 5px 5px 5px rgb(145, 118, 118);
   width: 90%;
   border-radius: 10px;
   position: relative;
   bottom: 20px;
   box-shadow: -10px 15px 30px 2px rgb(119, 115, 115);
-}
-
-.posts {
-  padding: 2%;
 }
