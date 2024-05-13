@@ -20,7 +20,6 @@ function Menu() {
       <Link to="/">Logo</Link>
       {isAuth && <Link to="/favorites">Favorites</Link>}
       {isAuth && <Link to="/history">History</Link>}
-      <Link to="/search">Search</Link>
       {isAuth ? (
         <>
           <button className="btn-exit" onClick={() => dispatch(removeUser())}>
