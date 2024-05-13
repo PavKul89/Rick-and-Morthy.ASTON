@@ -11,7 +11,7 @@ function History() {
       <ul>
         {searchHistory.map((query, index) => (
           <li key={index}>
-            <Link to={`/search/${query}`}>{query}</Link>
+            <Link to={`/search/result/${query}`}>{query}</Link>
           </li>
         ))}
       </ul>

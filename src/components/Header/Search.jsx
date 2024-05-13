@@ -4,8 +4,9 @@ import Button from '../Button/Button'
 import { Link } from 'react-router-dom'
 import { useFavorites } from '../../context/FavoritesContext'
 import './Search.css'
-
+//рефактор
 function Search() {
+  const { query } = useParams()
   const { addToFavorites, removeFromFavorites, favorites } = useFavorites()
   const { ids } = useParams()
   const [searchResult, setSearchResults] = useState([])
@@ -14,7 +15,7 @@ function Search() {
 
   useEffect(() => {
     fetchSearchResults()
-  }, [])
+  }, [query])
 
   const fetchSearchResults = async () => {
     const characterIds = ids.split(',')
