@@ -23,8 +23,9 @@ function Menu() {
       <Link to="/search">Search</Link>
       {isAuth ? (
         <>
-          <button onClick={() => dispatch(removeUser())}>EXIT {email}</button>
-          <Link to="/signout">Signout</Link>
+          <button className="btn-exit" onClick={() => dispatch(removeUser())}>
+            EXIT {email}
+          </button>
         </>
       ) : (
         <>

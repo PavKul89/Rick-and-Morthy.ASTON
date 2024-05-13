@@ -93,3 +93,11 @@ nav a {
 .suggestions > div:hover {
   background-color: #696666;
 }
+
+.btn-exit {
+  color: rgb(175, 175, 233);
+  font-size: 26px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
