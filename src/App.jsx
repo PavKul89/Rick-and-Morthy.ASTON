@@ -9,6 +9,7 @@ import NotFound from './components/Header/NotFound'
 import Search from './components/Header/Search'
 import Signin from './components/Header/Signin'
 import Signup from './components/Header/Signup'
+import SearchResultPage from './components/Header/SearchResultPage'
 import { ThemeProvider } from './context/ThemeContext'
 import MainLayout from './layouts/MainLayout'
 import { Suspense } from 'react'
@@ -18,6 +19,8 @@ const Project = React.lazy(() => import('./components/Header/Project'))
 
 function App() {
   return (
+    // <SearchProvider>
+    //   <FavoritesProvider>
     <ThemeProvider>
       <BrowserRouter>
         <Provider store={store}>
@@ -35,7 +38,14 @@ function App() {
                   }
                 />
                 <Route path="history" element={<History />} />
-                <Route path="search/:ids" element={<Search />} />
+
+                <Route
+                  path="searchResultPage/:ids"
+                  element={<SearchResultPage />}
+                />
+
+                <Route path="search/result/:query" element={<Search />} />
+
                 <Route exact path="signin" element={<Signin />} />
                 <Route exact path="signup" element={<Signup />} />
                 <Route path="*" element={<NotFound />} />
@@ -45,6 +55,8 @@ function App() {
         </Provider>
       </BrowserRouter>
     </ThemeProvider>
+    //   </FavoritesProvider>
+    // </SearchProvider>
   )
 }
 
