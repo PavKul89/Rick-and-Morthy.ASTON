@@ -1,16 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Button from './Button/Button'
 import './Post.css'
 
-function Post({ image, name, id, addToFavorites }) {
+function Post({ image, name, id, addToFavorites, removeFromFavorites }) {
   const [isFavorite, setIsFavorite] = useState(false)
+
+  useEffect(() => {
+    const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || []
+    const isAlreadyFavorite = storedFavorites.some((card) => card.id === id)
+    setIsFavorite(isAlreadyFavorite)
+  }, [id])
 
   const handleAddToFavorites = () => {
     setIsFavorite(!isFavorite)
-    addToFavorites({ image, name, id })
-    console.log({ image, name, id })
+    if (isFavorite) {
+      removeFromFavorites(id)
+    } else {
+      addToFavorites({ image, name, id })
+    }
   }
 
   return (
@@ -42,6 +51,7 @@ Post.propTypes = {
   name: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
   addToFavorites: PropTypes.func.isRequired,
+  removeFromFavorites: PropTypes.func.isRequired,
 }
 
 export default Post

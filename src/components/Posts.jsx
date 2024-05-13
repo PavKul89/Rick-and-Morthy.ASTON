@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { withErrorBoundary } from 'react-error-boundary'
 import { useTheme } from '../context/ThemeContext'
@@ -16,6 +17,22 @@ function Posts() {
   const [results, setResults] = useState([])
   const [favoriteCards, setFavoriteCards] = useState([])
   const { theme } = useTheme()
+  console.log(favoriteCards)
+
+  useEffect(() => {
+    const storedFavorites = localStorage.getItem('favorites')
+    if (storedFavorites) {
+      setFavoriteCards(JSON.parse(storedFavorites))
+    }
+  }, [])
+
+  useEffect(() => {
+    if (favoriteCards.length > 0) {
+      localStorage.setItem('favorites', JSON.stringify(favoriteCards))
+    } else {
+      localStorage.removeItem('favorites')
+    }
+  }, [favoriteCards])
 
   useEffect(() => {
     fetch('https://rickandmortyapi.com/api/character')
@@ -31,6 +48,13 @@ function Posts() {
 
   const addToFavorites = (card) => {
     setFavoriteCards([...favoriteCards, card])
+    localStorage.setItem('favorites', JSON.stringify([...favoriteCards, card]))
+  }
+
+  const removeFromFavorites = (id) => {
+    const updatedFavorites = favoriteCards.filter((card) => card.id !== id)
+    setFavoriteCards(updatedFavorites)
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
   }
 
   const fetchMoreData = () => {
@@ -73,7 +97,12 @@ function Posts() {
         endMessage={<p>character list is over</p>}
       >
         {posts.map((post) => (
-          <Post key={post.id} {...post} addToFavorites={addToFavorites} />
+          <Post
+            key={post.id}
+            {...post}
+            addToFavorites={addToFavorites}
+            removeFromFavorites={removeFromFavorites}
+          />
         ))}
         <BackToTopButton />
       </InfiniteScroll>

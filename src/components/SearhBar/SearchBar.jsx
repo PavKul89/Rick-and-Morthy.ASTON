@@ -1,65 +1,105 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import './SearchBar.css'
-import SearchResult from '../ResultsList/SearchResult'
+
+import { useNavigate } from 'react-router-dom'
 
 function SearchBar() {
-  const [result, setResult] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [hasError, setError] = useState(false)
-  const [selectedItem, setSelectedItem] = useState(null)
+  const [searchText, setSearchText] = useState('')
+  const [suggestions, setSuggestions] = useState([])
+  const [searchResults, setSearchResults] = useState([])
+  const navigate = useNavigate()
 
   const searchApi = async (text) => {
-    setLoading(true)
-    let inDebounce
-    return (function () {
-      clearTimeout(inDebounce)
-      inDebounce = setTimeout(async () => {
-        const response = await fetch(
-          `https://rickandmortyapi.com/api/character/?name=${text}`
-        )
-        const rst = await response.json()
-
-        if (rst.error) {
-          setError(true)
-        } else {
-          setResult(rst.results)
-          setError(false)
-          setSelectedItem(null)
-        }
-
-        setLoading(false)
-      }, 1000)
-    })()
+    try {
+      const response = await fetch(
+        `https://rickandmortyapi.com/api/character/?name=${text}`
+      )
+      if (!response.ok) {
+        throw new Error('Проблемы с сетью')
+      }
+      const data = await response.json()
+      if (data.results) {
+        setSearchResults(data.results)
+      } else {
+        setSearchResults([])
+      }
+    } catch (error) {
+      console.error('Ошибка получения данных:', error)
+    }
   }
 
-  const handleClick = (item) => {
-    setSelectedItem(item)
+  const fetchSuggestions = async (text) => {
+    try {
+      const response = await fetch(
+        `https://rickandmortyapi.com/api/character/?name=${text}`
+      )
+      if (!response.ok) {
+        throw new Error('Проблемы с сетью')
+      }
+      const data = await response.json()
+      if (data.results) {
+        setSuggestions(data.results)
+      } else {
+        setSuggestions([])
+      }
+    } catch (error) {
+      console.error('Ошибка получения предложений:', error)
+    }
+  }
+
+  const handleInputChange = (event) => {
+    const text = event.target.value
+    setSearchText(text)
+    if (text.trim() !== '') {
+      fetchSuggestions(text)
+    } else {
+      setSuggestions([])
+    }
+  }
+
+  const handleSuggestionClick = (suggestion) => {
+    setSearchText(suggestion.name)
+    setSuggestions([])
+  }
+
+  const handleSearch = () => {
+    const charactersIds = suggestions.map((character) => character.id)
+    searchApi(searchText)
+    const searchString = '/search/' + charactersIds.join(',')
+    navigate(searchString)
   }
 
   return (
     <div className="App">
       <input
-        placeholder="Search..."
+        placeholder="character search..."
         type="text"
-        onKeyUp={(e) => searchApi(e.target.value)}
+        value={searchText}
+        onChange={(e) => handleInputChange(e)}
+        onKeyUp={(e) => {
+          if (e.key === 'Enter') {
+            handleSearch()
+          }
+        }}
       />
-      <button className="search-button">search</button>
-      {!selectedItem ? (
-        <div className="results-list">
-          {loading ? (
-            <div>Loading...</div>
-          ) : !hasError ? (
-            result.map((item) => (
-              <div key={item.id} onClick={() => handleClick(item)}>
-                {item.name}
-              </div>
-            ))
-          ) : (
-            <div>There is nothing here</div>
-          )}
+      <button className="search-button" onClick={handleSearch}>
+        Search
+      </button>
+      {suggestions.length > 0 && (
+        <div className="suggestions">
+          {suggestions.map((suggestion) => (
+            <div
+              key={suggestion.id}
+              onClick={() => handleSuggestionClick(suggestion)}
+            >
+              <Link to={`/project/${suggestion.id}`}>{suggestion.name}</Link>
+            </div>
+          ))}
         </div>
-      ) : (
-        <SearchResult selectedItem={selectedItem} />
+      )}
+      {searchText.trim() !== '' && suggestions.length === 0 && (
+        <div className="no-suggestions">Предложений не найдено</div>
       )}
     </div>
   )
