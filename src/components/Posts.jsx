@@ -17,7 +17,6 @@ function Posts() {
   const [results, setResults] = useState([])
   const [favoriteCards, setFavoriteCards] = useState([])
   const { theme } = useTheme()
-  console.log(favoriteCards)
 
   useEffect(() => {
     const storedFavorites = localStorage.getItem('favorites')

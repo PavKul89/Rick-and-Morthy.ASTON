@@ -4,6 +4,7 @@ import Button from '../Button/Button'
 import { Link } from 'react-router-dom'
 import { useFavorites } from '../../context/FavoritesContext'
 import './Search.css'
+import SearchBar from '../SearhBar/SearchBar'
 
 function SearchResultPage() {
   const { ids } = useParams()
@@ -52,6 +53,7 @@ function SearchResultPage() {
 
   return (
     <div>
+      <SearchBar></SearchBar>
       <div>Search Result</div>
       <div className="search-result">
         {searchResult.map((result) => (

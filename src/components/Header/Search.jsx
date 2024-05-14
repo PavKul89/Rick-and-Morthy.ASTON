@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import Button from '../Button/Button'
 import { useFavorites } from '../../context/FavoritesContext'
 import './Search.css'
+import SearchBar from '../SearhBar/SearchBar'
 
 function Search() {
   const { query } = useParams()
@@ -52,6 +53,7 @@ function Search() {
 
   return (
     <div>
+      <SearchBar />
       <div>Search Result</div>
       <div className="search-result">
         {searchResult.map((result) => (

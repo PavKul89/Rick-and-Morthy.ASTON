@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import './SearchBar.css'
 import { useSearch } from '../../context/SearchContext'
 
@@ -8,7 +8,6 @@ function SearchBar() {
   const [suggestions, setSuggestions] = useState([])
   const [searchResults, setSearchResults] = useState([])
   const [showSuggestions, setShowSuggestions] = useState(false)
-
   const navigate = useNavigate()
   const { addToHistory } = useSearch()
 
@@ -65,17 +64,26 @@ function SearchBar() {
   const handleSuggestionClick = (suggestion) => {
     setSearchText(suggestion.name)
     setSuggestions([])
+    navigate(`/project/${suggestion.id}`)
   }
 
   const handleSearch = () => {
     const charactersIds = suggestions.map((character) => character.id)
     searchApi(searchText)
-
     const searchString = '/searchResultPage/' + charactersIds.join(',')
-
     navigate(searchString)
     setSearchText('')
     addToHistory(searchText)
+  }
+
+  const handleInputBlur = () => {
+    setShowSuggestions(false)
+  }
+
+  const handleInputFocus = () => {
+    if (searchText.trim() !== '') {
+      setShowSuggestions(true)
+    }
   }
 
   return (
@@ -85,8 +93,8 @@ function SearchBar() {
         type="text"
         value={searchText}
         onChange={handleInputChange}
-        onBlur={() => setShowSuggestions(false)}
-        onFocus={() => setShowSuggestions(true)}
+        onBlur={handleInputBlur}
+        onFocus={handleInputFocus}
         onKeyUp={(e) => {
           if (e.key === 'Enter') {
             handleSearch()
@@ -101,9 +109,9 @@ function SearchBar() {
           {suggestions.map((suggestion) => (
             <div
               key={suggestion.id}
-              onClick={() => handleSuggestionClick(suggestion)}
+              onMouseDown={() => handleSuggestionClick(suggestion)}
             >
-              <Link to={`/project/${suggestion.id}`}>{suggestion.name}</Link>
+              {suggestion.name}
             </div>
           ))}
         </div>
