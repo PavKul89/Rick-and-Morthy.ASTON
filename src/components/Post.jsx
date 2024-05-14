@@ -11,7 +11,6 @@ function Post({ image, name, id, addToFavorites, removeFromFavorites }) {
   const { isAuth } = useAuth()
   const navigate = useNavigate()
 
-  ////1111111111
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || []
     const isAlreadyFavorite = storedFavorites.some((card) => card?.id === id)

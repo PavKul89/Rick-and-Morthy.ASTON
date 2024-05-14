@@ -7,6 +7,7 @@ function SearchBar() {
   const [searchText, setSearchText] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [searchResults, setSearchResults] = useState([])
+  const [showSuggestions, setShowSuggestions] = useState(false)
 
   const navigate = useNavigate()
   const { addToHistory } = useSearch()
@@ -26,7 +27,7 @@ function SearchBar() {
         setSearchResults([])
       }
     } catch (error) {
-      console.error('Ошибка получения данных:', error)
+      console.error('Error receiving data:', error)
     }
   }
 
@@ -45,18 +46,19 @@ function SearchBar() {
         setSuggestions([])
       }
     } catch (error) {
-      console.error('Ошибка получения предложений:', error)
+      console.error('Error receiving offers:', error)
     }
   }
 
   const handleInputChange = (event) => {
-    setSearchText(event.target.value)
     const text = event.target.value
     setSearchText(text)
     if (text.trim() !== '') {
       fetchSuggestions(text)
+      setShowSuggestions(true)
     } else {
       setSuggestions([])
+      setShowSuggestions(false)
     }
   }
 
@@ -82,7 +84,9 @@ function SearchBar() {
         placeholder="search..."
         type="text"
         value={searchText}
-        onChange={(e) => handleInputChange(e)}
+        onChange={handleInputChange}
+        onBlur={() => setShowSuggestions(false)}
+        onFocus={() => setShowSuggestions(true)}
         onKeyUp={(e) => {
           if (e.key === 'Enter') {
             handleSearch()
@@ -92,7 +96,7 @@ function SearchBar() {
       <button className="search-button" onClick={handleSearch}>
         Search
       </button>
-      {suggestions.length > 0 && (
+      {showSuggestions && suggestions.length > 0 && (
         <div className="suggestions">
           {suggestions.map((suggestion) => (
             <div
@@ -105,7 +109,9 @@ function SearchBar() {
         </div>
       )}
       {searchText.trim() !== '' && suggestions.length === 0 && (
-        <div className="no-suggestions">Предложений не найдено</div>
+        <div className="no-suggestions">
+          the requested character is not available
+        </div>
       )}
     </div>
   )

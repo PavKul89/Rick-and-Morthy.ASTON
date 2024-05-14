@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useTheme } from '../../context/ThemeContext'
 import BtnDarkMode from '../BtnDarkMode/BtnDarkMode'
 import { useAuth } from '../../hooks/useAuth'
@@ -10,6 +10,12 @@ function Menu() {
   const { isAuth, email } = useAuth()
   const { theme } = useTheme()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    dispatch(removeUser())
+    navigate('/')
+  }
 
   return (
     <nav
@@ -22,7 +28,7 @@ function Menu() {
       {isAuth && <Link to="/history">History</Link>}
       {isAuth ? (
         <>
-          <button className="btn-exit" onClick={() => dispatch(removeUser())}>
+          <button className="btn-exit" onClick={handleLogout}>
             EXIT {email}
           </button>
         </>

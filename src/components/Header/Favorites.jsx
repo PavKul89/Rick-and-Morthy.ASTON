@@ -2,7 +2,7 @@ import './Favorites.css'
 import Button from '../Button/Button'
 import { Link } from 'react-router-dom'
 import { useFavorites } from '../../hooks/useFavorites'
-
+/////////////////
 function Favorites() {
   const { favoriteCards, removeFromFavorites, clearFavorites } = useFavorites()
 
