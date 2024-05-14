@@ -28,6 +28,8 @@ function Menu() {
         </>
       ) : (
         <>
+          <Link to={isAuth ? '/favorites' : '/signup'}>Favorites</Link>
+          <Link to={isAuth ? '/history' : '/signup'}>History</Link>
           <Link to="/signin">Signin</Link>
           <Link to="/signup">Signup</Link>
         </>

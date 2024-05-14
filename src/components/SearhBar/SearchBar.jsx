@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import './SearchBar.css'
 import { useSearch } from '../../context/SearchContext'
 
-//попытка 2
 function SearchBar() {
   const [searchText, setSearchText] = useState('')
   const [suggestions, setSuggestions] = useState([])
@@ -80,7 +79,7 @@ function SearchBar() {
   return (
     <div className="App">
       <input
-        placeholder="character search..."
+        placeholder="search..."
         type="text"
         value={searchText}
         onChange={(e) => handleInputChange(e)}

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useFetchCharacter } from '../../hooks/useFetchCharacter'
 import PropTypes from 'prop-types'
 import { useFavorites } from '../../hooks/useFavorites'
-
+import { useAuth } from '../../hooks/useAuth'
+///////////111
 function Project() {
   const { id } = useParams()
   const { personInfo, isLoading } = useFetchCharacter(id)
@@ -11,6 +12,8 @@ function Project() {
   const [imageLoading, setImageLoading] = useState(true)
   const [isFavorite, setIsFavorite] = useState(false)
   const { favoriteCards, removeFromFavorites } = useFavorites()
+  const { isAuth } = useAuth()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || []
@@ -23,6 +26,10 @@ function Project() {
   }
 
   const handleAddOrRemoveFromFavorites = () => {
+    if (!isAuth) {
+      navigate('/signup')
+      return
+    }
     const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || []
     if (isFavorite) {
       const updatedFavorites = storedFavorites.filter((card) => card.id !== id)
