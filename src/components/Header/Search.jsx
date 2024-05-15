@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import Button from '../Button/Button'
 import { useFavorites } from '../../context/FavoritesContext'
-import './Search.css'
 import SearchBar from '../SearhBar/SearchBar'
-
+import { useAuth } from '../../hooks/useAuth'
+import './Search.css'
+////////////////
 function Search() {
+  const { isAuth } = useAuth
   const { query } = useParams()
   const { addToFavorites, removeFromFavorites, favorites } = useFavorites()
   const [searchResult, setSearchResults] = useState([])

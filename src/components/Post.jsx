@@ -8,15 +8,17 @@ import { useAuth } from '../hooks/useAuth'
 function Post({ image, name, id, addToFavorites, removeFromFavorites }) {
   const [isFavorite, setIsFavorite] = useState(false)
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
-  const { isAuth } = useAuth()
+  const { isAuth, id: userId } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || []
-    const isAlreadyFavorite = storedFavorites.some((card) => card?.id === id)
+    const isAlreadyFavorite = storedFavorites.some(
+      (card) => card?.id === id && card?.userId === userId
+    )
     setIsFavorite(isAlreadyFavorite)
     setIsUserLoggedIn(isAuth)
-  }, [id, isAuth])
+  }, [id, isAuth, userId])
 
   const handleAddToFavorites = () => {
     if (!isAuth) {
@@ -28,13 +30,7 @@ function Post({ image, name, id, addToFavorites, removeFromFavorites }) {
     if (isFavorite) {
       removeFromFavorites(id)
     } else {
-      addToFavorites({ image, name, id })
-    }
-
-    if (!isFavorite) {
-      addToFavorites({ image, name, id })
-    } else {
-      removeFromFavorites(id)
+      addToFavorites({ image, name, id, userId })
     }
   }
 

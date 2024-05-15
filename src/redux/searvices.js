@@ -6,6 +6,15 @@ export const rickAndMortyApi = createApi({
   endpoints: (builder) => ({
     getCharacters: builder.query({
       query: (page = 1) => `character/?page=${page}`,
+      transformResponse: (response) =>
+        response.results.map((character) => ({
+          id: character.id,
+          name: character.name,
+          status: character.status,
+          species: character.species,
+          gender: character.gender,
+          image: character.image,
+        })),
     }),
   }),
 })

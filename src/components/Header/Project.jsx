@@ -4,7 +4,7 @@ import { useFetchCharacter } from '../../hooks/useFetchCharacter'
 import PropTypes from 'prop-types'
 import { useFavorites } from '../../hooks/useFavorites'
 import { useAuth } from '../../hooks/useAuth'
-///////////111
+
 function Project() {
   const { id } = useParams()
   const { personInfo, isLoading } = useFetchCharacter(id)

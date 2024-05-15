@@ -2,13 +2,18 @@ import './Favorites.css'
 import Button from '../Button/Button'
 import { Link } from 'react-router-dom'
 import { useFavorites } from '../../hooks/useFavorites'
-/////////////////
+import { useAuth } from '../../hooks/useAuth'
+
 function Favorites() {
   const { favoriteCards, removeFromFavorites, clearFavorites } = useFavorites()
+  const { id: userId } = useAuth()
+
+  // Фильтруем избранные карточки, оставляя только те, которые добавил текущий пользователь
+  const userFavorites = favoriteCards.filter((card) => card.userId === userId)
 
   return (
     <div>
-      {favoriteCards.length > 0 && (
+      {userFavorites.length > 0 && (
         <button
           className="btn-favorites"
           style={{
@@ -21,10 +26,10 @@ function Favorites() {
         </button>
       )}
       <div className="favorites">
-        {favoriteCards.length === 0 ? (
+        {userFavorites.length === 0 ? (
           <p className="nofavorites">No favorite cards</p>
         ) : (
-          favoriteCards.map((card) => (
+          userFavorites.map((card) => (
             <div key={card?.id} className="favorites-post">
               <img src={card?.image} alt={card?.name} />
               <h3>{card?.name}</h3>

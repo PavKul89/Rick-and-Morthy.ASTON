@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import './SearchBar.css'
 import { useSearch } from '../../context/SearchContext'
-
+//////////..........22222
 function SearchBar() {
   const [searchText, setSearchText] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [searchResults, setSearchResults] = useState([])
   const [showSuggestions, setShowSuggestions] = useState(false)
   const navigate = useNavigate()
+  const location = useLocation()
   const { addToHistory } = useSearch()
 
   const searchApi = async (text) => {
@@ -26,7 +27,7 @@ function SearchBar() {
         setSearchResults([])
       }
     } catch (error) {
-      console.error('Ошибка при получении данных:', error)
+      console.error('Error while receiving data:', error)
     }
   }
 
@@ -45,7 +46,7 @@ function SearchBar() {
         setSuggestions([])
       }
     } catch (error) {
-      console.error('Ошибка при получении предложений:', error)
+      console.error('Error receiving offers:', error)
     }
   }
 
@@ -125,7 +126,9 @@ function SearchBar() {
         </div>
       )}
       {searchText.trim() !== '' && suggestions.length === 0 && (
-        <div className="no-suggestions">запрашиваемый персонаж недоступен</div>
+        <div className="no-suggestions">
+          the requested character is not available
+        </div>
       )}
     </div>
   )

@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import useReducer from './slices/userSlice'
 import { rickAndMortyApi } from './searvices'
-//////////вернись сюда
+
 export const store = configureStore({
   reducer: {
     [rickAndMortyApi.reducerPath]: rickAndMortyApi.reducer,

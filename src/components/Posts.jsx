@@ -59,7 +59,7 @@ function Posts() {
             : 'posts-container-dark-theme'
         }
       >
-        {data?.results.map((post) => (
+        {data.map((post) => (
           <Post
             key={post.id}
             {...post}
