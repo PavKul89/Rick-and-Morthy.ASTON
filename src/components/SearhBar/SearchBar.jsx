@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './SearchBar.css'
 import { useSearch } from '../../context/SearchContext'
@@ -10,6 +10,7 @@ function SearchBar() {
   const [showSuggestions, setShowSuggestions] = useState(false)
   const navigate = useNavigate()
   const { addToHistory } = useSearch()
+  // const [debounceTimeout, setDebounceTimeout] = useState(null)
 
   const searchApi = async (text) => {
     try {
@@ -26,7 +27,7 @@ function SearchBar() {
         setSearchResults([])
       }
     } catch (error) {
-      console.error('Error receiving data:', error)
+      console.error('Ошибка при получении данных:', error)
     }
   }
 
@@ -45,20 +46,28 @@ function SearchBar() {
         setSuggestions([])
       }
     } catch (error) {
-      console.error('Error receiving offers:', error)
+      console.error('Ошибка при получении предложений:', error)
     }
   }
+
+  useEffect(() => {
+    if (searchText.trim() === '') {
+      setSuggestions([])
+      setShowSuggestions(false)
+      return
+    }
+
+    const delayDebounceFn = setTimeout(() => {
+      fetchSuggestions(searchText)
+      setShowSuggestions(true)
+    }, 300)
+
+    return () => clearTimeout(delayDebounceFn)
+  }, [searchText])
 
   const handleInputChange = (event) => {
     const text = event.target.value
     setSearchText(text)
-    if (text.trim() !== '') {
-      fetchSuggestions(text)
-      setShowSuggestions(true)
-    } else {
-      setSuggestions([])
-      setShowSuggestions(false)
-    }
   }
 
   const handleSuggestionClick = (suggestion) => {
@@ -117,9 +126,7 @@ function SearchBar() {
         </div>
       )}
       {searchText.trim() !== '' && suggestions.length === 0 && (
-        <div className="no-suggestions">
-          the requested character is not available
-        </div>
+        <div className="no-suggestions">запрашиваемый персонаж недоступен</div>
       )}
     </div>
   )
