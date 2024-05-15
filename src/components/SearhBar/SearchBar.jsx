@@ -10,7 +10,6 @@ function SearchBar() {
   const [showSuggestions, setShowSuggestions] = useState(false)
   const navigate = useNavigate()
   const { addToHistory } = useSearch()
-  // const [debounceTimeout, setDebounceTimeout] = useState(null)
 
   const searchApi = async (text) => {
     try {
