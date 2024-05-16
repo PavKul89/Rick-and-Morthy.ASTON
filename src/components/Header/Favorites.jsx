@@ -3,17 +3,11 @@ import Button from '../Button/Button'
 import { Link } from 'react-router-dom'
 import { useFavorites } from '../../hooks/useFavorites'
 import { useAuth } from '../../hooks/useAuth'
-
+//////////////11111
 function Favorites() {
   const { favoriteCards, removeFromFavorites, clearFavorites } = useFavorites()
   const { id: userId } = useAuth()
-
-  console.log('userId:', userId)
-  console.log('favoriteCards:', favoriteCards)
-
   const userFavorites = favoriteCards.filter((card) => card.userId === userId)
-
-  console.log('userFavorites:', userFavorites)
 
   return (
     <div>

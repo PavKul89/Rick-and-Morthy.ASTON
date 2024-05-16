@@ -23,7 +23,13 @@ function Menu() {
         theme === 'light' ? 'dark-mode-btn-header' : 'light-mode-btn-header'
       }
     >
-      <Link to="/">Logo</Link>
+      <Link to="/">
+        <img
+          className="img-rick"
+          src="/android-chrome-192x192.png"
+          alt="logo"
+        />
+      </Link>
       {isAuth && <Link to="/favorites">Favorites</Link>}
       {isAuth && <Link to="/history">History</Link>}
       {isAuth ? (

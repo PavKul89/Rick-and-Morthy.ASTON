@@ -5,7 +5,7 @@ import { useFavorites } from '../../context/FavoritesContext'
 import SearchBar from '../SearhBar/SearchBar'
 import { useAuth } from '../../hooks/useAuth'
 import './Search.css'
-////////////////
+
 function Search() {
   const { isAuth } = useAuth
   const { query } = useParams()

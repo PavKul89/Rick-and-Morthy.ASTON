@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useFetchCharacter } from '../../hooks/useFetchCharacter'
 import PropTypes from 'prop-types'
@@ -19,23 +19,22 @@ function Project() {
     const isAlreadyFavorite = favoriteCards.some(
       (card) => card.id === id && card.userId === userId
     )
-    console.log('useEffect - isAlreadyFavorite:', isAlreadyFavorite)
     setIsFavorite(isAlreadyFavorite)
   }, [id, favoriteCards, userId])
-
-  const handleImageLoaded = () => {
-    setImageLoading(false)
-  }
 
   const handleAddOrRemoveFromFavorites = () => {
     if (!isAuth) {
       navigate('/signup')
       return
     }
-    if (isFavorite) {
+
+    const isAlreadyFavorite = favoriteCards.some(
+      (card) => card.id === id && card.userId === userId
+    )
+
+    if (isAlreadyFavorite) {
       removeFromFavorites(id)
       setIsFavorite(false)
-      console.log('Removed from favorites:', id)
     } else {
       const newFavorite = {
         id,
@@ -49,10 +48,13 @@ function Project() {
       }
       addToFavorites(newFavorite)
       setIsFavorite(true)
-      console.log('Added to favorites:', newFavorite)
     }
   }
 
+  const handleImageLoaded = () => {
+    setImageLoading(false)
+  }
+  /////////////////
   return (
     <div className="project-card">
       <div className="project-image">
@@ -71,7 +73,7 @@ function Project() {
         )}
       </div>
       <div className="project-details">
-        <p className="project-name"> {name}</p>
+        <p className="project-name">{name}</p>
         <p>Status: {status}</p>
         <p>View: {species}</p>
         <p>Origin: {origin?.name}</p>
