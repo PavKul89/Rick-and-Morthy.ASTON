@@ -8,8 +8,12 @@ function Favorites() {
   const { favoriteCards, removeFromFavorites, clearFavorites } = useFavorites()
   const { id: userId } = useAuth()
 
-  // Фильтруем избранные карточки, оставляя только те, которые добавил текущий пользователь
+  console.log('userId:', userId)
+  console.log('favoriteCards:', favoriteCards)
+
   const userFavorites = favoriteCards.filter((card) => card.userId === userId)
+
+  console.log('userFavorites:', userFavorites)
 
   return (
     <div>
@@ -22,7 +26,7 @@ function Favorites() {
           }}
           onClick={clearFavorites}
         >
-          Clear Favorites
+          Clear favorites
         </button>
       )}
       <div className="favorites">

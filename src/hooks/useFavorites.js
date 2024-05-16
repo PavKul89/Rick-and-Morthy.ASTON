@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
+import { useAuth } from './useAuth'
 
 export function useFavorites() {
   const [favoriteCards, setFavoriteCards] = useState([])
+  const { id: userId } = useAuth()
 
   useEffect(() => {
     const storedFavorites = localStorage.getItem('favorites')
@@ -21,5 +23,11 @@ export function useFavorites() {
     localStorage.removeItem('favorites')
   }
 
-  return { favoriteCards, removeFromFavorites, clearFavorites }
+  const addToFavorites = (newFavorite) => {
+    const updatedFavorites = [...favoriteCards, { ...newFavorite, userId }]
+    setFavoriteCards(updatedFavorites)
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
+  }
+
+  return { favoriteCards, removeFromFavorites, clearFavorites, addToFavorites }
 }

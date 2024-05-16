@@ -11,15 +11,17 @@ function Project() {
   const { name, status, species, origin, location, gender } = personInfo
   const [imageLoading, setImageLoading] = useState(true)
   const [isFavorite, setIsFavorite] = useState(false)
-  const { favoriteCards, removeFromFavorites } = useFavorites()
-  const { isAuth } = useAuth()
+  const { favoriteCards, removeFromFavorites, addToFavorites } = useFavorites()
+  const { isAuth, id: userId } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
-    const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || []
-    const isAlreadyFavorite = storedFavorites.some((card) => card.id === id)
+    const isAlreadyFavorite = favoriteCards.some(
+      (card) => card.id === id && card.userId === userId
+    )
+    console.log('useEffect - isAlreadyFavorite:', isAlreadyFavorite)
     setIsFavorite(isAlreadyFavorite)
-  }, [id, favoriteCards])
+  }, [id, favoriteCards, userId])
 
   const handleImageLoaded = () => {
     setImageLoading(false)
@@ -30,12 +32,10 @@ function Project() {
       navigate('/signup')
       return
     }
-    const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || []
     if (isFavorite) {
-      const updatedFavorites = storedFavorites.filter((card) => card.id !== id)
-      localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
-      setIsFavorite(false)
       removeFromFavorites(id)
+      setIsFavorite(false)
+      console.log('Removed from favorites:', id)
     } else {
       const newFavorite = {
         id,
@@ -47,11 +47,9 @@ function Project() {
         gender,
         image: personInfo.image,
       }
-      localStorage.setItem(
-        'favorites',
-        JSON.stringify([...storedFavorites, newFavorite])
-      )
+      addToFavorites(newFavorite)
       setIsFavorite(true)
+      console.log('Added to favorites:', newFavorite)
     }
   }
 
@@ -69,16 +67,16 @@ function Project() {
           />
         )}
         {imageLoading && !isLoading && (
-          <div className="image-loader">Loading image...</div>
+          <div className="image-loader">loading image...</div>
         )}
       </div>
       <div className="project-details">
         <p className="project-name"> {name}</p>
         <p>Status: {status}</p>
-        <p>Species: {species}</p>
+        <p>View: {species}</p>
         <p>Origin: {origin?.name}</p>
         <p>Location: {location?.name}</p>
-        <p>Gender: {gender}</p>
+        <p>Floor: {gender}</p>
         <button
           onClick={handleAddOrRemoveFromFavorites}
           className="btn-favorites"
@@ -87,7 +85,7 @@ function Project() {
             color: '#fff',
           }}
         >
-          {isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+          {isFavorite ? 'Remove' : 'Add to favorites'}
         </button>
       </div>
     </div>
