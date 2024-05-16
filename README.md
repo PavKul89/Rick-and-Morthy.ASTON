@@ -1,9 +1,25 @@
 Реализация требований
 - [x] Реализованы требования функционала.
-- [ ] Task 2
-  - [x] Subtask a
-  - [ ] Subtask b
-- [x] Task 3
+- [x] Для хранения данных используется LocalStorage
+  ### REACT
+- [x] Пишем функциональные компоненты с хуками:
+- [x] Есть рендеринг списков
+- [x] Реализована форма
+- [x] Есть применение ConextAPI
+- [x] Есть применение предохранителя
+- [x] Кастомные хуки
+- [x] Использование PropTypes
+- [x] Поиск не должен триггерить много запросов debounce
+- [x] Есть применение Lazy+Suspense
+REDUX
+- [x] Используем Modern Redux with Redux Toolkit
+- [x] Используем слайсы
+- [x] Кастомная middleware
+- [x] Используем RTK Query
+- [x] Используем Transforming Responses
 
-There's no need to complete parents when child nodes are all checked.
+2 УРОВЕНЬ
+- [x] Использование Firebase
+
+
 
