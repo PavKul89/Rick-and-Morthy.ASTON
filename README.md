@@ -1,5 +1,5 @@
-Nested checkbox rendering would be nice (view the sourcer for this gist)
-- [x] Task 1
+Реализация требований
+- [x] Реализованы требования функционала.
 - [ ] Task 2
   - [x] Subtask a
   - [ ] Subtask b
