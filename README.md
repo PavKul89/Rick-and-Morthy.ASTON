@@ -13,7 +13,17 @@
 - [x] Реализованы требования функционала.
 - [x] Для хранения данных используется LocalStorage
   ### REACT
-- [x] Пишем функциональные компоненты с хуками:
+- [x] [Пишем функциональные компоненты](import { useSelector } from 'react-redux'
+
+export function useAuth() {
+  const { email, token, id } = useSelector((state) => state.user)
+  return {
+    isAuth: !!email,
+    email,
+    token,
+    id,
+  }
+}) с хуками:
 - [x] Есть рендеринг списков
 - [x] Реализована форма
 - [x] Есть применение ConextAPI
