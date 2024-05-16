@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useFetchCharacter } from '../../hooks/useFetchCharacter'
 import PropTypes from 'prop-types'
 import { useFavorites } from '../../hooks/useFavorites'
+import { useAuth } from '../../hooks/useAuth'
 
 function Project() {
   const { id } = useParams()
@@ -10,25 +11,30 @@ function Project() {
   const { name, status, species, origin, location, gender } = personInfo
   const [imageLoading, setImageLoading] = useState(true)
   const [isFavorite, setIsFavorite] = useState(false)
-  const { favoriteCards, removeFromFavorites } = useFavorites()
+  const { favoriteCards, removeFromFavorites, addToFavorites } = useFavorites()
+  const { isAuth, id: userId } = useAuth()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || []
-    const isAlreadyFavorite = storedFavorites.some((card) => card.id === id)
+    const isAlreadyFavorite = favoriteCards.some(
+      (card) => card.id === id && card.userId === userId
+    )
     setIsFavorite(isAlreadyFavorite)
-  }, [id, favoriteCards])
-
-  const handleImageLoaded = () => {
-    setImageLoading(false)
-  }
+  }, [id, favoriteCards, userId])
 
   const handleAddOrRemoveFromFavorites = () => {
-    const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || []
-    if (isFavorite) {
-      const updatedFavorites = storedFavorites.filter((card) => card.id !== id)
-      localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
-      setIsFavorite(false)
+    if (!isAuth) {
+      navigate('/signup')
+      return
+    }
+
+    const isAlreadyFavorite = favoriteCards.some(
+      (card) => card.id === id && card.userId === userId
+    )
+
+    if (isAlreadyFavorite) {
       removeFromFavorites(id)
+      setIsFavorite(false)
     } else {
       const newFavorite = {
         id,
@@ -40,14 +46,15 @@ function Project() {
         gender,
         image: personInfo.image,
       }
-      localStorage.setItem(
-        'favorites',
-        JSON.stringify([...storedFavorites, newFavorite])
-      )
+      addToFavorites(newFavorite)
       setIsFavorite(true)
     }
   }
 
+  const handleImageLoaded = () => {
+    setImageLoading(false)
+  }
+  /////////////////
   return (
     <div className="project-card">
       <div className="project-image">
@@ -62,16 +69,16 @@ function Project() {
           />
         )}
         {imageLoading && !isLoading && (
-          <div className="image-loader">Loading image...</div>
+          <div className="image-loader">loading image...</div>
         )}
       </div>
       <div className="project-details">
-        <p className="project-name"> {name}</p>
+        <p className="project-name">{name}</p>
         <p>Status: {status}</p>
-        <p>Species: {species}</p>
+        <p>View: {species}</p>
         <p>Origin: {origin?.name}</p>
         <p>Location: {location?.name}</p>
-        <p>Gender: {gender}</p>
+        <p>Floor: {gender}</p>
         <button
           onClick={handleAddOrRemoveFromFavorites}
           className="btn-favorites"
@@ -80,7 +87,7 @@ function Project() {
             color: '#fff',
           }}
         >
-          {isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+          {isFavorite ? 'Remove' : 'Add to favorites'}
         </button>
       </div>
     </div>

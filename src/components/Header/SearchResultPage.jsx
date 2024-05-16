@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import Button from '../Button/Button'
-import { Link } from 'react-router-dom'
 import { useFavorites } from '../../context/FavoritesContext'
 import './Search.css'
+import SearchBar from '../SearhBar/SearchBar'
+import { useAuth } from '../../hooks/useAuth'
 
 function SearchResultPage() {
+  const navigate = useNavigate()
+  const { isAuth } = useAuth()
   const { ids } = useParams()
   const { addToFavorites, removeFromFavorites, favorites } = useFavorites()
   const [searchResult, setSearchResults] = useState([])
@@ -13,28 +16,33 @@ function SearchResultPage() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
+    const fetchSearchResults = async () => {
+      const characterIds = ids.split(',')
+      const multipleCharacters =
+        'https://rickandmortyapi.com/api/character/' + characterIds.join(',')
+
+      try {
+        const res = await fetch(multipleCharacters)
+        if (!res.ok) throw new Error('Failed to fetch data')
+        const data = await res.json()
+        setSearchResults(Array.isArray(data) ? data : [data])
+        setIsLoading(false)
+      } catch (error) {
+        setError(error.message)
+        setIsLoading(false)
+      }
+    }
+
     fetchSearchResults()
   }, [ids])
-  const fetchSearchResults = async () => {
-    const characterIds = ids.split(',')
-    const multipleCharacters =
-      'https://rickandmortyapi.com/api/character/' + characterIds.join(',')
-
-    try {
-      const res = await fetch(multipleCharacters)
-      if (!res.ok) throw new Error('Failed to fetch data')
-      const data = await res.json()
-      setSearchResults(data)
-      setIsLoading(false)
-    } catch (error) {
-      setError(error.message)
-      setIsLoading(false)
-    }
-  }
 
   const isFavorite = (id) => favorites.some((item) => item.id === id)
 
   const handleAddRemoveFavorites = (result) => {
+    if (!isAuth) {
+      navigate('/signup')
+      return
+    }
     if (isFavorite(result.id)) {
       removeFromFavorites(result.id)
     } else {
@@ -52,6 +60,7 @@ function SearchResultPage() {
 
   return (
     <div>
+      <SearchBar />
       <div>Search Result</div>
       <div className="search-result">
         {searchResult.map((result) => (

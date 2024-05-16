@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import './SearchBar.css'
 import { useSearch } from '../../context/SearchContext'
-
-//попытка 2
+//////////..........22222
 function SearchBar() {
   const [searchText, setSearchText] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [searchResults, setSearchResults] = useState([])
-
+  const [showSuggestions, setShowSuggestions] = useState(false)
   const navigate = useNavigate()
+  const location = useLocation()
   const { addToHistory } = useSearch()
 
   const searchApi = async (text) => {
@@ -27,7 +27,7 @@ function SearchBar() {
         setSearchResults([])
       }
     } catch (error) {
-      console.error('Ошибка получения данных:', error)
+      console.error('Error while receiving data:', error)
     }
   }
 
@@ -46,44 +46,64 @@ function SearchBar() {
         setSuggestions([])
       }
     } catch (error) {
-      console.error('Ошибка получения предложений:', error)
+      console.error('Error receiving offers:', error)
     }
   }
 
+  useEffect(() => {
+    if (searchText.trim() === '') {
+      setSuggestions([])
+      setShowSuggestions(false)
+      return
+    }
+
+    const delayDebounceFn = setTimeout(() => {
+      fetchSuggestions(searchText)
+      setShowSuggestions(true)
+    }, 300)
+
+    return () => clearTimeout(delayDebounceFn)
+  }, [searchText])
+
   const handleInputChange = (event) => {
-    setSearchText(event.target.value)
     const text = event.target.value
     setSearchText(text)
-    if (text.trim() !== '') {
-      fetchSuggestions(text)
-    } else {
-      setSuggestions([])
-    }
   }
 
   const handleSuggestionClick = (suggestion) => {
     setSearchText(suggestion.name)
     setSuggestions([])
+    navigate(`/project/${suggestion.id}`)
   }
 
   const handleSearch = () => {
     const charactersIds = suggestions.map((character) => character.id)
     searchApi(searchText)
-
     const searchString = '/searchResultPage/' + charactersIds.join(',')
-
     navigate(searchString)
     setSearchText('')
     addToHistory(searchText)
   }
 
+  const handleInputBlur = () => {
+    setShowSuggestions(false)
+  }
+
+  const handleInputFocus = () => {
+    if (searchText.trim() !== '') {
+      setShowSuggestions(true)
+    }
+  }
+
   return (
     <div className="App">
       <input
-        placeholder="character search..."
+        placeholder="search..."
         type="text"
         value={searchText}
-        onChange={(e) => handleInputChange(e)}
+        onChange={handleInputChange}
+        onBlur={handleInputBlur}
+        onFocus={handleInputFocus}
         onKeyUp={(e) => {
           if (e.key === 'Enter') {
             handleSearch()
@@ -93,20 +113,22 @@ function SearchBar() {
       <button className="search-button" onClick={handleSearch}>
         Search
       </button>
-      {suggestions.length > 0 && (
+      {showSuggestions && suggestions.length > 0 && (
         <div className="suggestions">
           {suggestions.map((suggestion) => (
             <div
               key={suggestion.id}
-              onClick={() => handleSuggestionClick(suggestion)}
+              onMouseDown={() => handleSuggestionClick(suggestion)}
             >
-              <Link to={`/project/${suggestion.id}`}>{suggestion.name}</Link>
+              {suggestion.name}
             </div>
           ))}
         </div>
       )}
       {searchText.trim() !== '' && suggestions.length === 0 && (
-        <div className="no-suggestions">Предложений не найдено</div>
+        <div className="no-suggestions">
+          the requested character is not available
+        </div>
       )}
     </div>
   )

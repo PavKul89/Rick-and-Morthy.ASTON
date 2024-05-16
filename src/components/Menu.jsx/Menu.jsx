@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useTheme } from '../../context/ThemeContext'
 import BtnDarkMode from '../BtnDarkMode/BtnDarkMode'
 import { useAuth } from '../../hooks/useAuth'
@@ -10,6 +10,12 @@ function Menu() {
   const { isAuth, email } = useAuth()
   const { theme } = useTheme()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    dispatch(removeUser())
+    navigate('/')
+  }
 
   return (
     <nav
@@ -17,17 +23,25 @@ function Menu() {
         theme === 'light' ? 'dark-mode-btn-header' : 'light-mode-btn-header'
       }
     >
-      <Link to="/">Logo</Link>
+      <Link to="/">
+        <img
+          className="img-rick"
+          src="/android-chrome-192x192.png"
+          alt="logo"
+        />
+      </Link>
       {isAuth && <Link to="/favorites">Favorites</Link>}
       {isAuth && <Link to="/history">History</Link>}
       {isAuth ? (
         <>
-          <button className="btn-exit" onClick={() => dispatch(removeUser())}>
+          <button className="btn-exit" onClick={handleLogout}>
             EXIT {email}
           </button>
         </>
       ) : (
         <>
+          <Link to={isAuth ? '/favorites' : '/signup'}>Favorites</Link>
+          <Link to={isAuth ? '/history' : '/signup'}>History</Link>
           <Link to="/signin">Signin</Link>
           <Link to="/signup">Signup</Link>
         </>

@@ -1,38 +1,39 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import Button from '../Button/Button'
-import { Link } from 'react-router-dom'
 import { useFavorites } from '../../context/FavoritesContext'
+import SearchBar from '../SearhBar/SearchBar'
+import { useAuth } from '../../hooks/useAuth'
 import './Search.css'
-//правка 3
+
 function Search() {
+  const { isAuth } = useAuth
   const { query } = useParams()
   const { addToFavorites, removeFromFavorites, favorites } = useFavorites()
-  const { ids } = useParams()
   const [searchResult, setSearchResults] = useState([])
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
+    const fetchSearchResults = async () => {
+      try {
+        const response = await fetch(
+          `https://rickandmortyapi.com/api/character/?name=${query}`
+        )
+        if (!response.ok) {
+          throw new Error('Failed to fetch data')
+        }
+        const data = await response.json()
+        setSearchResults(data.results)
+        setIsLoading(false)
+      } catch (error) {
+        setError(error.message)
+        setIsLoading(false)
+      }
+    }
+
     fetchSearchResults()
   }, [query])
-
-  const fetchSearchResults = async () => {
-    const characterIds = ids.split(',')
-    const multipleCharacters =
-      'https://rickandmortyapi.com/api/character/' + characterIds.join(',')
-
-    try {
-      const res = await fetch(multipleCharacters)
-      if (!res.ok) throw new Error('Failed to fetch data')
-      const data = await res.json()
-      setSearchResults(data)
-      setIsLoading(false)
-    } catch (error) {
-      setError(error.message)
-      setIsLoading(false)
-    }
-  }
 
   const isFavorite = (id) => favorites.some((item) => item.id === id)
 
@@ -45,7 +46,7 @@ function Search() {
   }
 
   if (isLoading) {
-    return <h1>...Loading</h1>
+    return <h1>Loading...</h1>
   }
 
   if (error) {
@@ -54,6 +55,7 @@ function Search() {
 
   return (
     <div>
+      <SearchBar />
       <div>Search Result</div>
       <div className="search-result">
         {searchResult.map((result) => (

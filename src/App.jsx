@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Provider } from 'react-redux'
+import { Provider, useDispatch } from 'react-redux'
 import { store } from './redux/store'
 import React from 'react'
 import Favorites from './components/Header/Favorites'
@@ -13,13 +13,23 @@ import SearchResultPage from './components/Header/SearchResultPage'
 import { ThemeProvider } from './context/ThemeContext'
 import MainLayout from './layouts/MainLayout'
 import { Suspense } from 'react'
-import './App.css'
 import { FavoritesProvider } from './context/FavoritesContext'
 import { SearchProvider } from './context/SearchContext'
+import { useEffect } from 'react'
+import { setUser } from './redux/slices/userSlice'
+import './App.css'
 
 const Project = React.lazy(() => import('./components/Header/Project'))
 
 function App() {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    const userData = localStorage.getItem('user')
+    if (userData) {
+      dispatch(setUser(JSON.parse(userData)))
+    }
+  }, [dispatch])
+
   return (
     <SearchProvider>
       <FavoritesProvider>
@@ -40,9 +50,11 @@ function App() {
                       }
                     />
                     <Route path="history" element={<History />} />
-                    <Route path="search/:ids" element={<Search />} />
-                    {/* <Route path="search/result/:query" element={<Search />} /> */}
-
+                    <Route
+                      path="searchResultPage/:ids"
+                      element={<SearchResultPage />}
+                    />
+                    <Route path="search/result/:query" element={<Search />} />
                     <Route exact path="signin" element={<Signin />} />
                     <Route exact path="signup" element={<Signup />} />
                     <Route path="*" element={<NotFound />} />

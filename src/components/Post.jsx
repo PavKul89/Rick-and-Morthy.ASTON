@@ -1,24 +1,36 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Button from './Button/Button'
 import './Post.css'
+import { useAuth } from '../hooks/useAuth'
 
 function Post({ image, name, id, addToFavorites, removeFromFavorites }) {
   const [isFavorite, setIsFavorite] = useState(false)
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
+  const { isAuth, id: userId } = useAuth()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || []
-    const isAlreadyFavorite = storedFavorites.some((card) => card?.id === id)
+    const isAlreadyFavorite = storedFavorites.some(
+      (card) => card?.id === id && card?.userId === userId
+    )
     setIsFavorite(isAlreadyFavorite)
-  }, [id])
+    setIsUserLoggedIn(isAuth)
+  }, [id, isAuth, userId])
 
   const handleAddToFavorites = () => {
+    if (!isAuth) {
+      navigate('/signup')
+      return
+    }
     setIsFavorite(!isFavorite)
+
     if (isFavorite) {
       removeFromFavorites(id)
     } else {
-      addToFavorites({ image, name, id })
+      addToFavorites({ image, name, id, userId })
     }
   }
 
