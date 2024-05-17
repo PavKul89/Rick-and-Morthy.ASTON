@@ -20,7 +20,7 @@ export default Button]:
 - [x] Реализована форма
 - [x] Есть применение ConextAPI
 - [x] Есть применение предохранителя
-- [x] Кастомные хуки 
+- [x] Кастомные хуки https://github.com/PavKul89/Rick-and-Morthy.ASTON/blob/395e11b5d9e738e783f159ee36e05029dd252697/src/hooks/useFetchCharacter.js#L1-L22
 - [x] Использование PropTypes
 - [x] Поиск не должен триггерить много запросов debounce
 - [x] Есть применение Lazy+Suspense
