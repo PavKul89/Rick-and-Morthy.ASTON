@@ -19,7 +19,7 @@
 - [x] Есть применение ContextAPI https://github.com/PavKul89/Rick-and-Morthy.ASTON/blob/5b47c26bac330ef5a88379863e6692a328822e8a/src/context/FavoritesContext.jsx#L1-L35
 - [x] Есть применение предохранителя https://github.com/PavKul89/Rick-and-Morthy.ASTON/blob/784cb5af7a07d5bcaa517d32a524fe453da090cf/src/components/Posts.jsx#L76-L78
 - [x] Кастомные хуки https://github.com/PavKul89/Rick-and-Morthy.ASTON/blob/395e11b5d9e738e783f159ee36e05029dd252697/src/hooks/useFetchCharacter.js#L1-L22
-- [x] Использование PropTypes
+- [x] Использование PropTypes https://github.com/PavKul89/Rick-and-Morthy.ASTON/blob/eec8c28da3634195b3455c9f55f8e4a41f1e9f8c/src/components/Post.jsx#L61-L67
 - [x] Поиск не должен триггерить много запросов debounce
 - [x] Есть применение Lazy+Suspense
 REDUX
