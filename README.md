@@ -24,7 +24,7 @@
 
 * REDUX
 - [x] Используем Modern Redux with Redux Toolkit https://github.com/PavKul89/Rick-and-Morthy.ASTON/blob/f4a84970f7051fdd7de60f3c5c00107da2f50fb7/src/redux/store.js#L1-L12
-- [x] Используем слайсы
+- [x] Используем слайсы https://github.com/PavKul89/Rick-and-Morthy.ASTON/blob/02a5b2f91dadfbec25fb73d7aa766dd2e6b781df/src/redux/slices/userSlice.js#L1-L28
 - [x] Кастомная middleware
 - [x] Используем RTK Query
 - [x] Используем Transforming Responses
