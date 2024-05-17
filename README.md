@@ -20,7 +20,7 @@ export default Button]:
 - [x] Реализована форма
 - [x] Есть применение ConextAPI
 - [x] Есть применение предохранителя
-- [x] Кастомные хуки src/hooks/useFetchCharacter.js
+- [x] Кастомные хуки 
 - [x] Использование PropTypes
 - [x] Поиск не должен триггерить много запросов debounce
 - [x] Есть применение Lazy+Suspense
