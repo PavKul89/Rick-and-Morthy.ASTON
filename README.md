@@ -33,4 +33,4 @@
 
 2 УРОВЕНЬ
 - [x] - [Использование Firebase](https://github.com/PavKul89/Rick-and-Morthy.ASTON/blob/373cc9abcd059bc9981e99e29702e6585fb5f972/src/firebase.js#L1)
- 6157282a5c9b6cfd744d9cf24c1f6e0436f65a65)
+
