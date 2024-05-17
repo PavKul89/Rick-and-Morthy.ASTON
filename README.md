@@ -24,7 +24,7 @@
 - [x] - [Использование PropTypes](https://github.com/PavKul89/Rick-and-Morthy.ASTON/blob/eec8c28da3634195b3455c9f55f8e4a41f1e9f8c/src/components/Post.jsx#L61-L67)
 - [x] - [Поиск не должен триггерить много запросов debounce](https://github.com/PavKul89/Rick-and-Morthy.ASTON/blob/ce0b77ff6315018c641b6390ca2ff39e54378baa/src/components/SearhBar/SearchBar.jsx#L60-L63)
 
-- [x] - [Есть применение Lazy+Suspense] 
+- [x] - [Есть применение Lazy+Suspense](https://github.com/PavKul89/Rick-and-Morthy.ASTON/blob/16da1b278ffcf2099539dd315f067b2745318924/src/components/Posts.jsx#L7-L10) 
 
 * REDUX
 - [x] - [Используем Modern Redux with Redux Toolkit](https://github.com/PavKul89/Rick-and-Morthy.ASTON/blob/f4a84970f7051fdd7de60f3c5c00107da2f50fb7/src/redux/store.js#L1-L12)
