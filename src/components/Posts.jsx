@@ -3,7 +3,7 @@ import { withErrorBoundary } from 'react-error-boundary'
 import { useTheme } from '../context/ThemeContext'
 import { useGetCharactersQuery } from '../redux/searvices'
 import LoadingSpinner from './LoadingSpinner/LoadingSpinner'
-/////////////99999999999
+
 const BackToTopButton = lazy(() => import('../layouts/BackToTopButton'))
 const Post = lazy(() => import('./Post'))
 const SearchBar = lazy(() => import('./SearhBar/SearchBar'))

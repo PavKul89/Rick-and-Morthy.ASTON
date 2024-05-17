@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Button from './Button/Button'
 import './Post.css'
 import { useAuth } from '../hooks/useAuth'
-////////////////////22222222
+
 function Post({ image, name, id, addToFavorites, removeFromFavorites }) {
   const [isFavorite, setIsFavorite] = useState(false)
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)

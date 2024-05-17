@@ -3,7 +3,7 @@ import Button from '../Button/Button'
 import { Link } from 'react-router-dom'
 import { useFavorites } from '../../hooks/useFavorites'
 import { useAuth } from '../../hooks/useAuth'
-///////////////22222222222
+
 function Favorites() {
   const { favoriteCards, removeFromFavorites, clearFavorites } = useFavorites()
   const { id: userId } = useAuth()
