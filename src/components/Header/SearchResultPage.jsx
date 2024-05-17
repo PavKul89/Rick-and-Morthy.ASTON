@@ -5,7 +5,7 @@ import { useFavorites } from '../../context/FavoritesContext'
 import './Search.css'
 import SearchBar from '../SearhBar/SearchBar'
 import { useAuth } from '../../hooks/useAuth'
-
+///////////////999999999999999
 function SearchResultPage() {
   const navigate = useNavigate()
   const { isAuth } = useAuth()

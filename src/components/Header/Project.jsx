@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { useFavorites } from '../../hooks/useFavorites'
 import { useAuth } from '../../hooks/useAuth'
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
-
+//////////9999999999999999
 function Project() {
   const { id } = useParams()
   const { personInfo, isLoading } = useFetchCharacter(id)
@@ -46,6 +46,7 @@ function Project() {
         location,
         gender,
         image: personInfo.image,
+        userId: userId,
       }
       addToFavorites(newFavorite)
       setIsFavorite(true)

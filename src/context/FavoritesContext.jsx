@@ -6,7 +6,7 @@ export const useFavorites = () => useContext(FavoritesContext)
 
 export const FavoritesProvider = ({ children }) => {
   const [favorites, setFavorites] = useState([])
-
+  ///////////////999999999999
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || []
     setFavorites(storedFavorites)
