@@ -30,4 +30,4 @@
 - [x] Используем Transforming Responses https://github.com/PavKul89/Rick-and-Morthy.ASTON/blob/5609f666f95631f0db46fce3270cfae42cdcdf9f/src/components/Posts.jsx#L1-L78
 
 2 УРОВЕНЬ
-- [x] Использование Firebase
+- [x] Использование Firebase https://github.com/PavKul89/Rick-and-Morthy.ASTON/blob/373cc9abcd059bc9981e99e29702e6585fb5f972/src/firebase.js#L1
