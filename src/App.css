@@ -62,16 +62,16 @@ nav a {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   padding: 10px 350px;
-  background-color: #242222;
-  color: #333;
+  background-color: #c5c5c5;
+  color: #444040;
 }
 
 .posts-container-dark-theme {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   padding: 10px 350px;
-  background-color: #8b7f7f;
-  color: #131212;
+  background-color: #1a1717;
+  color: #646161;
 }
 .suggestions {
   position: absolute;
@@ -79,7 +79,7 @@ nav a {
   top: 17%;
   left: 40%;
   width: 550px;
-  background-color: #928e8e;
+  background-color: #e2d8d8;
   display: grid;
   box-shadow: 0px 0px 8px #ddd;
   border-radius: 10px;

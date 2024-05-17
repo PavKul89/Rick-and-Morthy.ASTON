@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, lazy, Suspense } from 'react'
 import { withErrorBoundary } from 'react-error-boundary'
 import { useTheme } from '../context/ThemeContext'
-import BackToTopButton from '../layouts/BackToTopButton'
-import Post from './Post'
-import SearchBar from './SearhBar/SearchBar'
-import SearchResultsList from './ResultsList/SearchResultsList'
 import { useGetCharactersQuery } from '../redux/searvices'
+import LoadingSpinner from './LoadingSpinner/LoadingSpinner'
+
+const BackToTopButton = lazy(() => import('../layouts/BackToTopButton'))
+const Post = lazy(() => import('./Post'))
+const SearchBar = lazy(() => import('./SearhBar/SearchBar'))
+const SearchResultsList = lazy(() => import('./ResultsList/SearchResultsList'))
 
 function Posts() {
   const [results, setResults] = useState([])
@@ -41,7 +43,7 @@ function Posts() {
   }
 
   if (isLoading) {
-    return <h1>...Loading</h1>
+    return <LoadingSpinner />
   }
 
   if (error) {
@@ -49,27 +51,29 @@ function Posts() {
   }
 
   return (
-    <div className="posts">
-      <SearchBar setResults={setResults} />
-      <SearchResultsList results={results} />
-      <div
-        className={
-          theme === 'light'
-            ? 'posts-container-light-theme'
-            : 'posts-container-dark-theme'
-        }
-      >
-        {data.map((post) => (
-          <Post
-            key={post.id}
-            {...post}
-            addToFavorites={addToFavorites}
-            removeFromFavorites={removeFromFavorites}
-          />
-        ))}
-        <BackToTopButton />
+    <Suspense fallback={<LoadingSpinner />}>
+      <div className="posts">
+        <SearchBar setResults={setResults} />
+        <SearchResultsList results={results} />
+        <div
+          className={
+            theme === 'light'
+              ? 'posts-container-light-theme'
+              : 'posts-container-dark-theme'
+          }
+        >
+          {data.map((post) => (
+            <Post
+              key={post.id}
+              {...post}
+              addToFavorites={addToFavorites}
+              removeFromFavorites={removeFromFavorites}
+            />
+          ))}
+          <BackToTopButton />
+        </div>
       </div>
-    </div>
+    </Suspense>
   )
 }
 

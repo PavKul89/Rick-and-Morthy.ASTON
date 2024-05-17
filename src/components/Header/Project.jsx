@@ -4,6 +4,7 @@ import { useFetchCharacter } from '../../hooks/useFetchCharacter'
 import PropTypes from 'prop-types'
 import { useFavorites } from '../../hooks/useFavorites'
 import { useAuth } from '../../hooks/useAuth'
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
 
 function Project() {
   const { id } = useParams()
@@ -54,12 +55,14 @@ function Project() {
   const handleImageLoaded = () => {
     setImageLoading(false)
   }
-  /////////////////
+
   return (
     <div className="project-card">
       <div className="project-image">
         {isLoading ? (
-          <div className="loader">Loading...</div>
+          <div className="loader">
+            <LoadingSpinner />
+          </div>
         ) : (
           <img
             src={personInfo.image}
@@ -69,7 +72,9 @@ function Project() {
           />
         )}
         {imageLoading && !isLoading && (
-          <div className="image-loader">loading image...</div>
+          <div className="image-loader">
+            <LoadingSpinner />
+          </div>
         )}
       </div>
       <div className="project-details">

@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useMemo, useState } from 'react'
+import React, {
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+  useEffect,
+} from 'react'
 
 const ThemeContext = createContext()
 
@@ -10,6 +16,10 @@ const ThemeProvider = ({ children }) => {
   }
 
   const memoValue = useMemo(() => ({ theme, toggleTheme }), [theme])
+
+  useEffect(() => {
+    document.body.className = theme
+  }, [theme])
 
   return (
     <ThemeContext.Provider value={memoValue}>{children}</ThemeContext.Provider>

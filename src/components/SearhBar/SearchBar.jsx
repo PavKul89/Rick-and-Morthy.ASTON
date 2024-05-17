@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import './SearchBar.css'
 import { useSearch } from '../../context/SearchContext'
-//////////..........22222
+
 function SearchBar() {
   const [searchText, setSearchText] = useState('')
   const [suggestions, setSuggestions] = useState([])
