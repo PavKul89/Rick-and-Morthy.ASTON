@@ -1,5 +1,5 @@
-Предметная область: Приложение поиска фильмов
-Используемое API: KinopoiskAPI
+Предметная область: Приложение персонажей Rick and Morthy
+Используемое API: Rick and Morthy
 
 
 ОСНОВНОЙ ФУНКЦИОНАЛ
@@ -27,7 +27,7 @@
 - [x] Используем слайсы https://github.com/PavKul89/Rick-and-Morthy.ASTON/blob/02a5b2f91dadfbec25fb73d7aa766dd2e6b781df/src/redux/slices/userSlice.js#L1-L28
 - [x] Кастомная middleware
 - [x] Используем RTK Query https://github.com/PavKul89/Rick-and-Morthy.ASTON/blob/fac90c6a05a9458ea37372420fe794007e2efba0/src/redux/searvices.js#L1-L21C1
-- [x] Используем Transforming Responses
+- [x] Используем Transforming Responses https://github.com/PavKul89/Rick-and-Morthy.ASTON/blob/5609f666f95631f0db46fce3270cfae42cdcdf9f/src/components/Posts.jsx#L1-L78
 
 2 УРОВЕНЬ
 - [x] Использование Firebase
