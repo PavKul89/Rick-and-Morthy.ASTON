@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+} from 'react'
 
 const FavoritesContext = createContext()
 
@@ -13,8 +19,9 @@ export const FavoritesProvider = ({ children }) => {
   }, [])
 
   const addToFavorites = (character) => {
-    setFavorites([...favorites, character])
-    localStorage.setItem('favorites', JSON.stringify([...favorites, character]))
+    const updatedFavorites = [...favorites, character]
+    setFavorites(updatedFavorites)
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
   }
 
   const removeFromFavorites = (id) => {
@@ -25,10 +32,17 @@ export const FavoritesProvider = ({ children }) => {
     localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
   }
 
+  const memoValue = useMemo(
+    () => ({
+      favorites,
+      addToFavorites,
+      removeFromFavorites,
+    }),
+    [favorites]
+  )
+
   return (
-    <FavoritesContext.Provider
-      value={{ favorites, addToFavorites, removeFromFavorites }}
-    >
+    <FavoritesContext.Provider value={memoValue}>
       {children}
     </FavoritesContext.Provider>
   )

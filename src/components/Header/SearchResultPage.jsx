@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import Button from '../Button/Button'
 import { useFavorites } from '../../context/FavoritesContext'
-import './Search.css'
 import SearchBar from '../SearhBar/SearchBar'
 import { useAuth } from '../../hooks/useAuth'
+import './Search.css'
 
 function SearchResultPage() {
   const navigate = useNavigate()
@@ -67,7 +67,7 @@ function SearchResultPage() {
           <div className="search-card" key={result.id}>
             <img src={result.image} alt={result.name} />
             <div>{result.name}</div>
-            <div className="buttons">
+            <div className="search-btn">
               <button
                 style={{
                   backgroundColor: isFavorite(result.id)

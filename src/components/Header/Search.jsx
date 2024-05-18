@@ -59,10 +59,10 @@ function Search() {
       <div>Search Result</div>
       <div className="search-result">
         {searchResult.map((result) => (
-          <div className="search-card" key={result.id}>
+          <div className="search-card " key={result.id}>
             <img src={result.image} alt={result.name} />
             <div>{result.name}</div>
-            <div className="buttons">
+            <div className="search-btn">
               <button
                 style={{
                   backgroundColor: isFavorite(result.id)
@@ -77,8 +77,12 @@ function Search() {
                   : 'Add to favorites'}
               </button>
               <Link to={`/project/${result.id}`}>
-                <Button bgColor="#6350d3" textColor="#fff">
-                  <span>More details</span>
+                <Button
+                  className="favorites-btn"
+                  bgColor="#6350d3"
+                  textColor="#fff"
+                >
+                  <span className="search-btn-more">More details</span>
                 </Button>
               </Link>
             </div>

@@ -1,6 +1,12 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+} from 'react'
 import { useAuth } from '../hooks/useAuth'
-/////////////
+
 const SearchContext = createContext()
 
 export const useSearch = () => useContext(SearchContext)
@@ -37,10 +43,18 @@ export const SearchProvider = ({ children }) => {
     setSearchHistory((prevHistory) => prevHistory.filter((_, i) => i !== index))
   }
 
+  const memoValue = useMemo(
+    () => ({
+      searchHistory,
+      addToHistory,
+      clearHistory,
+      removeFromHistory,
+    }),
+    [searchHistory]
+  )
+
   return (
-    <SearchContext.Provider
-      value={{ searchHistory, addToHistory, clearHistory, removeFromHistory }}
-    >
+    <SearchContext.Provider value={memoValue}>
       {children}
     </SearchContext.Provider>
   )

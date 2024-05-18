@@ -5,14 +5,22 @@ import React, {
   useState,
   useEffect,
 } from 'react'
+import { loggerMiddleware } from '../redux/loggerMiddleware'
 
 const ThemeContext = createContext()
 
 const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState('light')
 
+  const setThemeWithMiddleware = (newTheme) => {
+    loggerMiddleware(() => setTheme(newTheme))({
+      type: 'SET_THEME',
+      payload: newTheme,
+    })
+  }
+
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'))
+    setThemeWithMiddleware(theme === 'light' ? 'dark' : 'light')
   }
 
   const memoValue = useMemo(() => ({ theme, toggleTheme }), [theme])
