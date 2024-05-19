@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, Link, useNavigate } from 'react-router-dom'
+import { useParams, Link, useNavigate, useLocation } from 'react-router-dom'
 import Button from '../Button/Button'
 import { useFavorites } from '../../context/FavoritesContext'
 import SearchBar from '../SearhBar/SearchBar'
 import { useAuth } from '../../hooks/useAuth'
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
 import './Search.css'
 
 function SearchResultPage() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { isAuth } = useAuth()
   const { ids } = useParams()
   const { addToFavorites, removeFromFavorites, favorites } = useFavorites()
@@ -51,7 +53,11 @@ function SearchResultPage() {
   }
 
   if (isLoading) {
-    return <h1>...Loading</h1>
+    return (
+      <h1>
+        <LoadingSpinner />
+      </h1>
+    )
   }
 
   if (error) {
@@ -60,7 +66,7 @@ function SearchResultPage() {
 
   return (
     <div>
-      <SearchBar />
+      <SearchBar initialSearchText={location.state?.searchText || ''} />
       <div>Search Result</div>
       <div className="search-result">
         {searchResult.map((result) => (

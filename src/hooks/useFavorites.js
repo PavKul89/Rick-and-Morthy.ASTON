@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from './useAuth'
-
+/////////////11111111////////
 export function useFavorites() {
   const [favoriteCards, setFavoriteCards] = useState([])
   const { id: userId } = useAuth()

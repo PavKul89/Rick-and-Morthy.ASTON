@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Provider, useDispatch } from 'react-redux'
 import { store } from './redux/store'
-import React from 'react'
+import React, { Suspense, useEffect } from 'react'
 import Favorites from './components/Header/Favorites'
 import History from './components/Header/History'
 import Logo from './components/Header/Logo'
@@ -12,17 +12,17 @@ import Signup from './components/Header/Signup'
 import SearchResultPage from './components/Header/SearchResultPage'
 import { ThemeProvider } from './context/ThemeContext'
 import MainLayout from './layouts/MainLayout'
-import { Suspense } from 'react'
 import { FavoritesProvider } from './context/FavoritesContext'
 import { SearchProvider } from './context/SearchContext'
-import { useEffect } from 'react'
 import { setUser } from './redux/slices/userSlice'
+import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner'
 import './App.css'
 
 const Project = React.lazy(() => import('./components/Header/Project'))
 
 function App() {
   const dispatch = useDispatch()
+
   useEffect(() => {
     const userData = localStorage.getItem('user')
     if (userData) {
@@ -31,11 +31,11 @@ function App() {
   }, [dispatch])
 
   return (
-    <SearchProvider>
-      <FavoritesProvider>
-        <ThemeProvider>
-          <BrowserRouter>
-            <Provider store={store}>
+    <Provider store={store}>
+      <SearchProvider>
+        <FavoritesProvider>
+          <ThemeProvider>
+            <BrowserRouter>
               <div className="App">
                 <Routes>
                   <Route exact path="/" element={<MainLayout />}>
@@ -44,7 +44,13 @@ function App() {
                     <Route
                       path="project/:id"
                       element={
-                        <Suspense fallback={<h2>Loading...</h2>}>
+                        <Suspense
+                          fallback={
+                            <h2>
+                              <LoadingSpinner />
+                            </h2>
+                          }
+                        >
                           <Project />
                         </Suspense>
                       }
@@ -61,11 +67,11 @@ function App() {
                   </Route>
                 </Routes>
               </div>
-            </Provider>
-          </BrowserRouter>
-        </ThemeProvider>
-      </FavoritesProvider>
-    </SearchProvider>
+            </BrowserRouter>
+          </ThemeProvider>
+        </FavoritesProvider>
+      </SearchProvider>
+    </Provider>
   )
 }
 

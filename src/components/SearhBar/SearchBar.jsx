@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import './SearchBar.css'
 import { useSearch } from '../../context/SearchContext'
 
-function SearchBar() {
-  const [searchText, setSearchText] = useState('')
+function SearchBar({ initialSearchText }) {
+  const [searchText, setSearchText] = useState(initialSearchText || '')
   const [suggestions, setSuggestions] = useState([])
-  const [searchResults, setSearchResults] = useState([])
   const [showSuggestions, setShowSuggestions] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
   const { addToHistory } = useSearch()
+  const inputRef = useRef(null)
 
   const searchApi = async (text) => {
     try {
@@ -22,9 +22,9 @@ function SearchBar() {
       }
       const data = await response.json()
       if (data.results) {
-        setSearchResults(data.results)
+        setSuggestions(data.results)
       } else {
-        setSearchResults([])
+        setSuggestions([])
       }
     } catch (error) {
       console.error('Error while receiving data:', error)
@@ -77,12 +77,11 @@ function SearchBar() {
   }
 
   const handleSearch = () => {
-    const charactersIds = suggestions.map((character) => character.id)
     searchApi(searchText)
-    const searchString = '/searchResultPage/' + charactersIds.join(',')
-    navigate(searchString)
-    setSearchText('')
     addToHistory(searchText)
+    const charactersIds = suggestions.map((character) => character.id)
+    const searchString = '/searchResultPage/' + charactersIds.join(',')
+    navigate(searchString, { state: { searchText } })
   }
 
   const handleInputBlur = () => {
@@ -95,9 +94,18 @@ function SearchBar() {
     }
   }
 
+  useEffect(() => {
+    if (location.state?.searchText) {
+      setSearchText(location.state.searchText)
+    }
+
+    inputRef.current.focus()
+  }, [location.state])
+
   return (
     <div className="App">
       <input
+        ref={inputRef}
         placeholder="search..."
         type="text"
         value={searchText}
