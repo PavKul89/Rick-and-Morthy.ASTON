@@ -32,7 +32,7 @@
 - [x] - [Кастомная middleware](https://github.com/PavKul89/Rick-and-Morthy.ASTON/blob/13d85690c08207a55c5c00113ee3dee2a1b03b2e/src/redux/store.js#L1-L12)
 - [x]  - [Используем RTK Query](https://github.com/PavKul89/Rick-and-Morthy.ASTON/blob/fac90c6a05a9458ea37372420fe794007e2efba0/src/redux/searvices.js#L1-L22)
 - [x]  - [Используем Transforming Responses](https://github.com/PavKul89/Rick-and-Morthy.ASTON/blob/5609f666f95631f0db46fce3270cfae42cdcdf9f/src/components/Posts.jsx#L1-L78)
-- [x] -  [Кастомная middleware]()
+- [x] -  [Кастомная middleware](https://github.com/PavKul89/Rick-and-Morthy.ASTON/blob/7b37415f37b4ab92edca993b574db89670c41bea/src/context/ThemeContext.jsx#L8C8-L8C61)
 
 2 УРОВЕНЬ
 - [x] - [Использование Firebase](https://github.com/PavKul89/Rick-and-Morthy.ASTON/blob/373cc9abcd059bc9981e99e29702e6585fb5f972/src/firebase.js#L1)
